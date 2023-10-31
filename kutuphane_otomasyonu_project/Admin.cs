@@ -22,7 +22,7 @@ namespace kutuphane_otomasyonu_project
 
         private void addBook_btn_Click(object sender, EventArgs e)
         {
-            addBookForm addBookForm = new addBookForm();
+            addBook_Form addBookForm = new addBook_Form();
             addBookForm.Show();
             this.Hide();
         }

@@ -16,7 +16,7 @@ namespace kutuphane_otomasyonu_project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new login_form());
+            Application.Run(new Login_Register_Form());
         }
     }
 }

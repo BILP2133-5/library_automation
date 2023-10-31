@@ -50,17 +50,19 @@
             this.adminNavbar_pnl.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.adminNavbar_pnl.Controls.Add(this.admin_picbox);
             this.adminNavbar_pnl.Controls.Add(this.admin_lbl);
-            this.adminNavbar_pnl.Location = new System.Drawing.Point(12, 12);
+            this.adminNavbar_pnl.Location = new System.Drawing.Point(9, 10);
+            this.adminNavbar_pnl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.adminNavbar_pnl.Name = "adminNavbar_pnl";
-            this.adminNavbar_pnl.Size = new System.Drawing.Size(1250, 100);
+            this.adminNavbar_pnl.Size = new System.Drawing.Size(938, 81);
             this.adminNavbar_pnl.TabIndex = 0;
             // 
             // admin_picbox
             // 
             this.admin_picbox.Image = ((System.Drawing.Image)(resources.GetObject("admin_picbox.Image")));
-            this.admin_picbox.Location = new System.Drawing.Point(391, 22);
+            this.admin_picbox.Location = new System.Drawing.Point(293, 18);
+            this.admin_picbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.admin_picbox.Name = "admin_picbox";
-            this.admin_picbox.Size = new System.Drawing.Size(100, 50);
+            this.admin_picbox.Size = new System.Drawing.Size(75, 41);
             this.admin_picbox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.admin_picbox.TabIndex = 1;
             this.admin_picbox.TabStop = false;
@@ -69,18 +71,20 @@
             // 
             this.admin_lbl.AutoSize = true;
             this.admin_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
-            this.admin_lbl.Location = new System.Drawing.Point(497, 37);
+            this.admin_lbl.Location = new System.Drawing.Point(373, 30);
+            this.admin_lbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.admin_lbl.Name = "admin_lbl";
-            this.admin_lbl.Size = new System.Drawing.Size(364, 24);
+            this.admin_lbl.Size = new System.Drawing.Size(290, 18);
             this.admin_lbl.TabIndex = 0;
             this.admin_lbl.Text = "Kütüphane Otomasyonu Admin Paneli";
             // 
             // addBook_btn
             // 
             this.addBook_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.addBook_btn.Location = new System.Drawing.Point(13, 140);
+            this.addBook_btn.Location = new System.Drawing.Point(10, 114);
+            this.addBook_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.addBook_btn.Name = "addBook_btn";
-            this.addBook_btn.Size = new System.Drawing.Size(251, 34);
+            this.addBook_btn.Size = new System.Drawing.Size(188, 28);
             this.addBook_btn.TabIndex = 4;
             this.addBook_btn.Text = "Kitap Ekle";
             this.addBook_btn.UseVisualStyleBackColor = true;
@@ -141,22 +145,24 @@
             this.language,
             this.author,
             this.aboutBook});
-            this.bookList_datagrdvw.Location = new System.Drawing.Point(13, 210);
+            this.bookList_datagrdvw.Location = new System.Drawing.Point(10, 171);
+            this.bookList_datagrdvw.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.bookList_datagrdvw.Name = "bookList_datagrdvw";
             this.bookList_datagrdvw.ReadOnly = true;
             this.bookList_datagrdvw.RowHeadersWidth = 51;
             this.bookList_datagrdvw.RowTemplate.Height = 24;
-            this.bookList_datagrdvw.Size = new System.Drawing.Size(1249, 430);
+            this.bookList_datagrdvw.Size = new System.Drawing.Size(937, 349);
             this.bookList_datagrdvw.TabIndex = 8;
             // 
             // admin_panel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1274, 652);
+            this.ClientSize = new System.Drawing.Size(956, 530);
             this.Controls.Add(this.bookList_datagrdvw);
             this.Controls.Add(this.addBook_btn);
             this.Controls.Add(this.adminNavbar_pnl);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "admin_panel";
             this.Text = "Admin Paneli";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.admin_panel_FormClosed);
