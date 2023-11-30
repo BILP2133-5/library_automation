@@ -78,16 +78,18 @@ namespace kutuphane_otomasyonu_project
                         Label userNameLabel = new Label();
                         userNameLabel.Text = userDataList[i].name;
                         changeStyle(userNameLabel);
-                        //userNameLabel.Location = new Point(0, rowFlowPanel.Height/2);
+                        //userNameLabel.Location = new Point(0, -rowFlowPanel.Location.Y);
+                        userNameLabel.Height = rowFlowPanel.Height;
                         userNameLabel.Width = rowFlowPanel.Width / 6;
                         //userNameLabel.Size = new Size(rowFlowPanel.Width/6, rowFlowPanel.Height);
-                        userNameLabel.TextAlign = ContentAlignment.BottomLeft;
+                        userNameLabel.TextAlign = ContentAlignment.MiddleCenter;
 
                         Label userEmailLabel = new Label();
-                        //userEmailLabel.Location = new Point(0, 0);
-                        //userEmailLabel.Width = rowFlowPanel.Width/4;
-                        userEmailLabel.Size = new Size(rowFlowPanel.Width / 4, rowFlowPanel.Height);
-                        userEmailLabel.TextAlign = ContentAlignment.MiddleLeft;
+                        //userEmailLabel.Location = new Point(0, -rowFlowPanel.Location.Y);
+                        userEmailLabel.Height = rowFlowPanel.Height;
+                        userEmailLabel.Width = rowFlowPanel.Width / 4;
+                        //userEmailLabel.Size = new Size(rowFlowPanel.Width / 4, rowFlowPanel.Height);
+                        userEmailLabel.TextAlign = ContentAlignment.MiddleCenter;
                         userEmailLabel.Text = userDataList[i].email;
                         changeStyle(userEmailLabel);
 
@@ -97,17 +99,19 @@ namespace kutuphane_otomasyonu_project
                         changeStyle(userRadioButton);
                         //userRadioButton.Location = new Point(0, 0);
                         userRadioButton.Height = rowFlowPanel.Height;
-                        userRadioButton.TextAlign = ContentAlignment.MiddleLeft;
+                        //userRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
+                        //userRadioButton.TextAlign = ContentAlignment.MiddleLeft;
                         //userRadioButton.CheckedChanged += new EventHandler(userRadioButton_CheckedChanged);
                         userRadioButton.Tag = "user";
 
                         RadioButton adminRadioButton = new RadioButton();
                         adminRadioButton.Text = "admin";
                         changeStyle(adminRadioButton);
-                        //adminRadioButton.Height = rowFlowPanel.Height;
-                        adminRadioButton.Location = new Point(0, rowFlowPanel.Height/2);
+                        adminRadioButton.Height = rowFlowPanel.Height;
+                        //adminRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
+                        //adminRadioButton.Location = new Point(0, rowFlowPanel.Height/2);
                         //adminRadioButton.Width = rowFlowPanel.Width / 8;
-                        adminRadioButton.TextAlign = ContentAlignment.MiddleLeft;
+                        //adminRadioButton.TextAlign = ContentAlignment.MiddleLeft;
                         adminRadioButton.CheckedChanged += new EventHandler(adminRadioButton_CheckedChanged);
                         adminRadioButton.Tag = "admin";
 
@@ -162,6 +166,7 @@ namespace kutuphane_otomasyonu_project
                         removeButton.AutoSize = true;
                         removeButton.Tag = userDataList[i]._id;
                         removeButton.Click += new EventHandler(remove_btn_Click);
+                        //removeButton.AutoSize = true;
                         //removeButton.Location = new Point(0, -20);
 
                         //FlowLayoutPanel fr Buttons
@@ -233,9 +238,11 @@ namespace kutuphane_otomasyonu_project
         {
             if(isLoaded)
             {
+                RadioButton radioButton = (RadioButton)sender;
                 DialogResult result = MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
+                    radioButton.Checked = true;
                     MessageBox.Show("güncelleme ile eklenecek.");
                     //RadioButton adminRadioButton = (RadioButton)sender;
                     //string updateUserUrl = "http://localhost:3000/user/updaterole";
@@ -286,6 +293,10 @@ namespace kutuphane_otomasyonu_project
                     //        }
                     //    }
                     //}
+                }
+                else
+                {
+                    radioButton.Checked = false;
                 }
             }
             

@@ -243,6 +243,7 @@
             this.hide_pic.TabIndex = 3;
             this.hide_pic.TabStop = false;
             this.hide_pic.Visible = false;
+            this.hide_pic.Click += new System.EventHandler(this.hide_pic_Click);
             // 
             // show_pic
             // 
@@ -255,6 +256,7 @@
             this.show_pic.TabIndex = 2;
             this.show_pic.TabStop = false;
             this.show_pic.Visible = false;
+            this.show_pic.Click += new System.EventHandler(this.show_pic_Click);
             // 
             // password_text
             // 

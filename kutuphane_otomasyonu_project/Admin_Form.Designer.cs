@@ -373,6 +373,7 @@
             this.close_btn.TabIndex = 10;
             this.close_btn.Text = "X";
             this.close_btn.UseVisualStyleBackColor = false;
+            this.close_btn.Click += new System.EventHandler(this.close_btn_Click);
             // 
             // minimize_btn
             // 
@@ -393,6 +394,7 @@
             this.minimize_btn.TabIndex = 11;
             this.minimize_btn.Text = "─";
             this.minimize_btn.UseVisualStyleBackColor = false;
+            this.minimize_btn.Click += new System.EventHandler(this.minimize_btn_Click);
             // 
             // panel1
             // 

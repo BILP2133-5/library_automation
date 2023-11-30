@@ -118,6 +118,12 @@ namespace kutuphane_otomasyonu_project
 
         private async void BookList_Form_Load(object sender, EventArgs e)
         {
+            bool isUser = false;
+            User_Form user_Form = Application.OpenForms["User_Form"] as User_Form;
+            if (user_Form != null)
+            {
+                isUser = true;
+            }
             //addBook_btn.Image = (Image)(new Bitmap(addBook_btn.Image, new Size(20, 20)));
             main_panel.FlowDirection = FlowDirection.LeftToRight;
             main_panel.WrapContents = true;
@@ -174,42 +180,64 @@ namespace kutuphane_otomasyonu_project
                         aboutBook.BorderStyle = BorderStyle.FixedSingle;
                         changeStyle(aboutBook);
 
-                        
-
-                        //Buttons
-                        Button updateButton = new Button();
-                        updateButton.Text = "update";
-                        updateButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                        updateButton.FlatStyle = FlatStyle.Flat;
-                        updateButton.FlatAppearance.BorderSize = 0;
-                        updateButton.BackColor = Color.FromArgb(0, 173, 181);
-                        updateButton.ForeColor = Color.FromArgb(238, 238, 238);
-                        updateButton.Click += new EventHandler(update_btn_Click);
-                        //updateButton.Size = new Size(20, 20);
-                        updateButton.AutoSize = true;
-                        updateButton.Margin = new Padding(15, updateButton.Margin.Top, 15, updateButton.Margin.Bottom);
-                        updateButton.Tag = bookDataList[i]._id;
-                        //updateButton.Location = new Point(20, 405);
-
-                        Button removeButton = new Button();
-                        removeButton.Text = "remove";
-                        removeButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                        removeButton.FlatStyle = FlatStyle.Flat;
-                        removeButton.FlatAppearance.BorderSize = 0;
-                        removeButton.BackColor = Color.FromArgb(0, 173, 181);
-                        removeButton.ForeColor = Color.FromArgb(238, 238, 238);
-                        removeButton.AutoSize = true;
-                        removeButton.Tag = bookDataList[i]._id;
-                        removeButton.Click += new EventHandler(remove_btn_Click);
-                        //removeButton.Location = new Point(80, 405);
-
                         //FlowLayoutPanel fr Buttons
                         FlowLayoutPanel buttonPanel = new FlowLayoutPanel();
                         buttonPanel.Size = new Size(cardPanel.Width, 50);
                         buttonPanel.FlowDirection = FlowDirection.LeftToRight;
                         buttonPanel.Location = new Point(0, 405);
-                        buttonPanel.Controls.Add(updateButton);
-                        buttonPanel.Controls.Add(removeButton);
+
+                        if (isUser)
+                        {
+                            //Buttons
+                            Button borrowButton = new Button();
+                            borrowButton.Text = "borrow";
+                            borrowButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                            borrowButton.FlatStyle = FlatStyle.Flat;
+                            borrowButton.FlatAppearance.BorderSize = 0;
+                            borrowButton.BackColor = Color.FromArgb(0, 173, 181);
+                            borrowButton.ForeColor = Color.FromArgb(238, 238, 238);
+                            borrowButton.Click += new EventHandler(update_btn_Click);
+                            //updateButton.Size = new Size(20, 20);
+                            borrowButton.AutoSize = true;
+                            borrowButton.Margin = new Padding(15, borrowButton.Margin.Top, 15, borrowButton.Margin.Bottom);
+                            borrowButton.Tag = bookDataList[i]._id;
+                            //updateButton.Location = new Point(20, 405);
+
+                            buttonPanel.Controls.Add(borrowButton);
+                        }
+
+                        else
+                        {
+                            //Buttons
+                            Button updateButton = new Button();
+                            updateButton.Text = "update";
+                            updateButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                            updateButton.FlatStyle = FlatStyle.Flat;
+                            updateButton.FlatAppearance.BorderSize = 0;
+                            updateButton.BackColor = Color.FromArgb(0, 173, 181);
+                            updateButton.ForeColor = Color.FromArgb(238, 238, 238);
+                            updateButton.Click += new EventHandler(update_btn_Click);
+                            //updateButton.Size = new Size(20, 20);
+                            updateButton.AutoSize = true;
+                            updateButton.Margin = new Padding(15, updateButton.Margin.Top, 15, updateButton.Margin.Bottom);
+                            updateButton.Tag = bookDataList[i]._id;
+                            //updateButton.Location = new Point(20, 405);
+
+                            Button removeButton = new Button();
+                            removeButton.Text = "remove";
+                            removeButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                            removeButton.FlatStyle = FlatStyle.Flat;
+                            removeButton.FlatAppearance.BorderSize = 0;
+                            removeButton.BackColor = Color.FromArgb(0, 173, 181);
+                            removeButton.ForeColor = Color.FromArgb(238, 238, 238);
+                            removeButton.AutoSize = true;
+                            removeButton.Tag = bookDataList[i]._id;
+                            removeButton.Click += new EventHandler(remove_btn_Click);
+                            //removeButton.Location = new Point(80, 405);
+
+                            buttonPanel.Controls.Add(updateButton);
+                            buttonPanel.Controls.Add(removeButton);
+                        }                        
 
                         cardPanel.Controls.Add(bookImage);
                         cardPanel.Controls.Add(titleLabel);

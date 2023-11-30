@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
+//using static System.Net.Mime.MediaTypeNames;
 using Image = System.Drawing.Image;
 
 namespace kutuphane_otomasyonu_project
@@ -221,6 +221,16 @@ namespace kutuphane_otomasyonu_project
             addBook_btn.Visible=false;
             addBook_Form addBook_Form = new addBook_Form();
             getForm(addBook_Form);
+        }
+
+        private void close_btn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void minimize_btn_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

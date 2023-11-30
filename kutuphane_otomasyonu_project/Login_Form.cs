@@ -183,6 +183,8 @@ namespace kutuphane_otomasyonu_project
                                 // Başarılı yanıt
                                 Admin_Form admin_Form = new Admin_Form();
                                 admin_Form.Show();
+                                //User_Form user_Form = new User_Form();
+                                //user_Form.Show();
                             }
 
                             else
