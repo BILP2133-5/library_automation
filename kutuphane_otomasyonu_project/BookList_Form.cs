@@ -108,6 +108,7 @@ namespace kutuphane_otomasyonu_project
             public int publicationYear { get; set; }
             public string aboutBook { get; set; }
             public string _id { get; set; }
+            public string borrowedAt { get; set; }
         }
 
         void changeStyle (Control control)
@@ -153,6 +154,11 @@ namespace kutuphane_otomasyonu_project
                         bookImage.SizeMode = PictureBoxSizeMode.StretchImage;
                         bookImage.Size = new Size(75, 100);
                         bookImage.Location = new Point(cardPanel.Width / 2 - 37, 10);
+                        if (bookDataList[i].borrowedAt != null)
+                        {
+                            MessageBox.Show(bookDataList[i].borrowedAt);
+                        }
+                        
 
                         Label titleLabel = new Label();
                         titleLabel.Text = bookDataList[i].bookName + " (" + Convert.ToInt32(bookDataList[i].publicationYear) + ")";
@@ -170,6 +176,7 @@ namespace kutuphane_otomasyonu_project
 
                         //RichTextBox
                         RichTextBox aboutBook = new RichTextBox();
+                        aboutBook.ReadOnly = true;
                         aboutBook.ScrollBars = RichTextBoxScrollBars.Vertical;
                         aboutBook.Text = bookDataList[i].aboutBook;
                         aboutBook.Size = new Size(cardPanel.Width - 10, 220);
@@ -201,6 +208,10 @@ namespace kutuphane_otomasyonu_project
                             borrowButton.AutoSize = true;
                             borrowButton.Margin = new Padding(15, borrowButton.Margin.Top, 15, borrowButton.Margin.Bottom);
                             borrowButton.Tag = bookDataList[i]._id;
+                            if (bookDataList[i].borrowedAt != null )
+                            {
+                                borrowButton.Enabled = false;
+                            }
                             //updateButton.Location = new Point(20, 405);
 
                             buttonPanel.Controls.Add(borrowButton);
@@ -264,19 +275,16 @@ namespace kutuphane_otomasyonu_project
             //MessageBox.Show(bookId);
             UpdateBook_Form updateForm = new UpdateBook_Form();
             updateForm.bookId = bookId;
-
-            string apiUrl = "http://localhost:3000/books";
-
-            using(HttpClient httpClient = new HttpClient())
+            string apiUrl = "http://localhost:3000/books/";
+            using (HttpClient httpClient = new HttpClient())
             {
                 HttpResponseMessage response = await httpClient.GetAsync($"{apiUrl}/{bookId}");
-
                 if (response.IsSuccessStatusCode)
                 {
                     // Yanıtı JSON veri olarak okuyun
                     string bookData = await response.Content.ReadAsStringAsync();
                     var bookInfo = JsonConvert.DeserializeObject<BookData>(bookData);
-
+                    
                     updateForm.bookName_txt.Text = bookInfo.bookName;
                     updateForm.publicationYear_txt.Text = bookInfo.publicationYear.ToString();
                     updateForm.publisher_txt.Text = bookInfo.publisher;

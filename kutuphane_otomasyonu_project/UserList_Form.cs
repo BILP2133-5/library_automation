@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -37,7 +38,12 @@ namespace kutuphane_otomasyonu_project
 
         bool isLoaded = false;
         //List<Button> updateButtons = new List<Button>();
-
+        public class RadioButtonData
+        {
+            public string Role { get; set; }
+            public string Id { get; set; }
+        }
+        RadioButtonData userRadioButtonData, adminRadioButtonData;
         private async void UserList_Form_Load(object sender, EventArgs e)
         {
             //FlowLayoutPanel mainFlowLayoutPanel = new FlowLayoutPanel();
@@ -101,8 +107,11 @@ namespace kutuphane_otomasyonu_project
                         userRadioButton.Height = rowFlowPanel.Height;
                         //userRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
                         //userRadioButton.TextAlign = ContentAlignment.MiddleLeft;
-                        //userRadioButton.CheckedChanged += new EventHandler(userRadioButton_CheckedChanged);
-                        userRadioButton.Tag = "user";
+                        userRadioButton.Click += new EventHandler(adminRadioButton_Click);
+                        userRadioButtonData = new RadioButtonData();
+                        userRadioButtonData.Id = userDataList[i]._id;
+                        userRadioButtonData.Role = "user";
+                        userRadioButton.Tag = userRadioButtonData;
 
                         RadioButton adminRadioButton = new RadioButton();
                         adminRadioButton.Text = "admin";
@@ -112,8 +121,11 @@ namespace kutuphane_otomasyonu_project
                         //adminRadioButton.Location = new Point(0, rowFlowPanel.Height/2);
                         //adminRadioButton.Width = rowFlowPanel.Width / 8;
                         //adminRadioButton.TextAlign = ContentAlignment.MiddleLeft;
-                        adminRadioButton.CheckedChanged += new EventHandler(adminRadioButton_CheckedChanged);
-                        adminRadioButton.Tag = "admin";
+                        adminRadioButton.Click += new EventHandler(adminRadioButton_Click);
+                        adminRadioButtonData = new RadioButtonData();
+                        adminRadioButtonData.Id = userDataList[i]._id;
+                        adminRadioButtonData.Role = "admin";
+                        adminRadioButton.Tag = adminRadioButtonData;
 
                         if (userDataList[i].role == "user")
                         {
@@ -234,42 +246,65 @@ namespace kutuphane_otomasyonu_project
         //    }
         //}
 
-        private async void adminRadioButton_CheckedChanged(object sender, EventArgs e)
+        private async void adminRadioButton_Click(object sender, EventArgs e)
         {
             if(isLoaded)
             {
-                RadioButton radioButton = (RadioButton)sender;
+                RadioButton radioButton = sender as RadioButton;
+                RadioButtonData storedData = radioButton.Tag as RadioButtonData;
                 DialogResult result = MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                     radioButton.Checked = true;
-                    MessageBox.Show("güncelleme ile eklenecek.");
-                    //RadioButton adminRadioButton = (RadioButton)sender;
-                    //string updateUserUrl = "http://localhost:3000/user/updaterole";
+                    string protectedUrl = "http://localhost:3000/auth/protected";
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                        var authUserResponse = await client.GetAsync(protectedUrl);
+                        if (authUserResponse.IsSuccessStatusCode)
+                        {
+                            var authUserContent = await authUserResponse.Content.ReadAsStringAsync();
+                            var authUserJsonData = JsonConvert.DeserializeObject<dynamic>(authUserContent);
+                            string role = authUserJsonData.user.role;
+                            //userId = authUserJsonData.user._id;
+                            if (role == "admin")
+                            {
+                                //RadioButton adminRadioButton = (RadioButton)sender;
+                                string updateUserUrl = "http://localhost:3000/users/updaterole";
+                                //string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{radioButton.Tag}\", \"role\": \"admin\" }}";
+                                string userData = $"{{ \"userIdToPromote\": \"{storedData.Id}\", \"role\": \"{storedData.Role}\" }}";
+                                MessageBox.Show(storedData.Id, storedData.Role);
+                                MessageBox.Show(userData);
+                                MessageBox.Show(Login_Form.userToken);
+
+                                using (HttpClient httpClient = new HttpClient())
+                                {
+                                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                                    var content = new StringContent(userData, Encoding.UTF8, "application/json");
+                                    HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
 
 
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        // Başarılı yanıt
+                                        MessageBox.Show("işlem Başarılı");
+                                    }
+                                    else
+                                    {
+                                        // Hata durumu
+                                        MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Yetkisiz İşlem!");
+                            }
+                        }
+                    }               
                     //if (adminRadioButton.Checked)
                     //{
-                    //    string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{adminRadioButton.Tag}\", \"role\": \"admin\" }}";
-
-                    //    using (HttpClient httpClient = new HttpClient())
-                    //    {
-                    //        var content = new StringContent(userData, Encoding.UTF8, "application/json");
-                    //        HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
-
-
-                    //        if (response.IsSuccessStatusCode)
-                    //        {
-                    //            // Başarılı yanıt
-                    //            MessageBox.Show("işlem Başarılı");
-                    //        }
-                    //        else
-                    //        {
-                    //            // Hata durumu
-                    //            MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
-                    //        }
-                    //    }
-                    //}
+                    
 
                     //else
                     //{
@@ -301,6 +336,97 @@ namespace kutuphane_otomasyonu_project
             }
             
         }
+        private async void userRadioButton_Click(object sender, EventArgs e)
+        {
+            if (isLoaded)
+            {
+                RadioButton radioButton = sender as RadioButton;
+                RadioButtonData storedData = radioButton.Tag as RadioButtonData;
+                DialogResult result = MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    radioButton.Checked = true;
+                    string protectedUrl = "http://localhost:3000/auth/protected";
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                        var authUserResponse = await client.GetAsync(protectedUrl);
+                        if (authUserResponse.IsSuccessStatusCode)
+                        {
+                            var authUserContent = await authUserResponse.Content.ReadAsStringAsync();
+                            var authUserJsonData = JsonConvert.DeserializeObject<dynamic>(authUserContent);
+                            string role = authUserJsonData.user.role;
+                            //userId = authUserJsonData.user._id;
+                            if (role == "admin")
+                            {
+                                //RadioButton adminRadioButton = (RadioButton)sender;
+                                string updateUserUrl = "http://localhost:3000/users/updaterole";
+                                //string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{radioButton.Tag}\", \"role\": \"admin\" }}";
+                                string userData = $"{{ \"userIdToPromote\": \"{storedData.Id}\", \"role\": \"{storedData.Role}\" }}";
+                                MessageBox.Show(storedData.Id, storedData.Role);
+                                MessageBox.Show(userData);
+                                MessageBox.Show(Login_Form.userToken);
+
+                                using (HttpClient httpClient = new HttpClient())
+                                {
+                                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                                    var content = new StringContent(userData, Encoding.UTF8, "application/json");
+                                    HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
+
+
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        // Başarılı yanıt
+                                        MessageBox.Show("işlem Başarılı");
+                                    }
+                                    else
+                                    {
+                                        // Hata durumu
+                                        MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Yetkisiz İşlem!");
+                            }
+                        }
+                    }
+                    //if (adminRadioButton.Checked)
+                    //{
+
+
+                    //else
+                    //{
+                    //    string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{adminRadioButton.Tag}\", \"role\": \"user\" }}";
+
+                    //    using (HttpClient httpClient = new HttpClient())
+                    //    {
+                    //        var content = new StringContent(userData, Encoding.UTF8, "application/json");
+                    //        HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
+
+
+                    //        if (response.IsSuccessStatusCode)
+                    //        {
+                    //            // Başarılı yanıt
+                    //            MessageBox.Show("işlem Başarılı");
+                    //        }
+                    //        else
+                    //        {
+                    //            // Hata durumu
+                    //            MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
+                    //        }
+                    //    }
+                    //}
+                }
+                else
+                {
+                    radioButton.Checked = false;
+                }
+            }
+
+        }
+
 
         public string userId;
 
