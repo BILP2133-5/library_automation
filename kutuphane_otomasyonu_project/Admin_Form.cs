@@ -29,7 +29,9 @@ namespace kutuphane_otomasyonu_project
 
         private void Admin_Form_Load(object sender, EventArgs e)
         {
-            List<Button> smallButtons = new List<Button> { addBook_btn, bookList_btn, removeBook_btn, updateBook_btn, authUser_btn, addUserOld_btn, removeUser_btn, updateUser_btn};
+            //MessageBox.Show(addBook_btn.Width.ToString());
+            //MessageBox.Show(addBook_btn.Height.ToString());
+            List<Button> smallButtons = new List<Button> { addBook_btn, bookList_btn, removeBook_btn, updateBook_btn, authUser_btn, addUserOld_btn, removeUser_btn, updateUser_btn, addAdmin_btn};
             List<Button> bigButtons = new List<Button> { bookOps_btn, userOps_btn };
 
             foreach(Button button in smallButtons)
@@ -145,6 +147,7 @@ namespace kutuphane_otomasyonu_project
         bool userSubmenuExpanded = false;
         private void bookOps_btn_Click(object sender, EventArgs e)
         {
+            addAdmin_btn.Visible = false;
             addBook_btn.Visible = true;
             bookList_Form = new BookList_Form();
             getForm(bookList_Form);
@@ -181,6 +184,7 @@ namespace kutuphane_otomasyonu_project
         private void userOps_btn_Click(object sender, EventArgs e)
         {
             addBook_btn.Visible = false;
+            addAdmin_btn.Visible = true;
             UserList_Form userList_Form = new UserList_Form();
             getForm(userList_Form);
             //userOps_timer.Start();
@@ -231,6 +235,12 @@ namespace kutuphane_otomasyonu_project
         private void minimize_btn_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void addAdmin_btn_Click(object sender, EventArgs e)
+        {
+            AddAdmin_Form AddAdmin_Form = new AddAdmin_Form();
+            getForm(AddAdmin_Form);
         }
     }
 }

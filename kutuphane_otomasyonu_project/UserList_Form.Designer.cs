@@ -33,7 +33,6 @@
             // 
             // main_panel
             // 
-            this.main_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.main_panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.main_panel.Location = new System.Drawing.Point(0, 0);
             this.main_panel.Name = "main_panel";

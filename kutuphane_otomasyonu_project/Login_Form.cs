@@ -176,7 +176,7 @@ namespace kutuphane_otomasyonu_project
                             //MessageBox.Show(data["role"]);
 
 
-                            if (role == "admin")
+                            if (authUserJsonData.user.role == "admin" || authUserJsonData.user.role ==  "superadmin")
                             {
                                 //userId = userResponse.token;
 

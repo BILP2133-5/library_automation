@@ -84,6 +84,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAdmin_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddAdmin_Form.Designer.cs">
+      <DependentUpon>AddAdmin_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="addBook_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +152,15 @@
     <Compile Include="User_Form.Designer.cs">
       <DependentUpon>User_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="User_Profile_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User_Profile_Form.Designer.cs">
+      <DependentUpon>User_Profile_Form.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddAdmin_Form.resx">
+      <DependentUpon>AddAdmin_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="addBook_Form.resx">
       <DependentUpon>addBook_Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -184,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User_Form.resx">
       <DependentUpon>User_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User_Profile_Form.resx">
+      <DependentUpon>User_Profile_Form.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

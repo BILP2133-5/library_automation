@@ -31,20 +31,20 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(User_Form));
             this.sidebar_panel = new System.Windows.Forms.Panel();
+            this.menu_btn = new System.Windows.Forms.PictureBox();
+            this.appLogo_picbox = new System.Windows.Forms.PictureBox();
             this.userOps_panel = new System.Windows.Forms.Panel();
             this.removeUser_btn = new System.Windows.Forms.Button();
             this.updateUser_btn = new System.Windows.Forms.Button();
             this.addUserOld_btn = new System.Windows.Forms.Button();
             this.authUser_btn = new System.Windows.Forms.Button();
             this.profile_btn = new System.Windows.Forms.Button();
-            this.menu_btn = new System.Windows.Forms.PictureBox();
             this.bookOps_panel = new System.Windows.Forms.Panel();
             this.removeBook_btn = new System.Windows.Forms.Button();
             this.updateBook_btn = new System.Windows.Forms.Button();
             this.addBookOld_btn = new System.Windows.Forms.Button();
             this.bookList_btn = new System.Windows.Forms.Button();
             this.book_btn = new System.Windows.Forms.Button();
-            this.appLogo_picbox = new System.Windows.Forms.PictureBox();
             this.sidebarTransition_timer = new System.Windows.Forms.Timer(this.components);
             this.background_panel = new System.Windows.Forms.Panel();
             this.main_panel = new System.Windows.Forms.Panel();
@@ -52,10 +52,10 @@
             this.close_btn = new System.Windows.Forms.Button();
             this.minimize_btn = new System.Windows.Forms.Button();
             this.sidebar_panel.SuspendLayout();
-            this.userOps_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.menu_btn)).BeginInit();
-            this.bookOps_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.appLogo_picbox)).BeginInit();
+            this.userOps_panel.SuspendLayout();
+            this.bookOps_panel.SuspendLayout();
             this.background_panel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +73,29 @@
             this.sidebar_panel.Name = "sidebar_panel";
             this.sidebar_panel.Size = new System.Drawing.Size(317, 855);
             this.sidebar_panel.TabIndex = 3;
+            // 
+            // menu_btn
+            // 
+            this.menu_btn.Image = ((System.Drawing.Image)(resources.GetObject("menu_btn.Image")));
+            this.menu_btn.Location = new System.Drawing.Point(16, 15);
+            this.menu_btn.Margin = new System.Windows.Forms.Padding(4);
+            this.menu_btn.Name = "menu_btn";
+            this.menu_btn.Size = new System.Drawing.Size(40, 25);
+            this.menu_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.menu_btn.TabIndex = 1;
+            this.menu_btn.TabStop = false;
+            this.menu_btn.Click += new System.EventHandler(this.menu_btn_Click);
+            // 
+            // appLogo_picbox
+            // 
+            this.appLogo_picbox.Image = ((System.Drawing.Image)(resources.GetObject("appLogo_picbox.Image")));
+            this.appLogo_picbox.Location = new System.Drawing.Point(81, 57);
+            this.appLogo_picbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.appLogo_picbox.Name = "appLogo_picbox";
+            this.appLogo_picbox.Size = new System.Drawing.Size(141, 130);
+            this.appLogo_picbox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.appLogo_picbox.TabIndex = 0;
+            this.appLogo_picbox.TabStop = false;
             // 
             // userOps_panel
             // 
@@ -187,18 +210,7 @@
             this.profile_btn.Text = "         Profile";
             this.profile_btn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.profile_btn.UseVisualStyleBackColor = false;
-            // 
-            // menu_btn
-            // 
-            this.menu_btn.Image = ((System.Drawing.Image)(resources.GetObject("menu_btn.Image")));
-            this.menu_btn.Location = new System.Drawing.Point(16, 15);
-            this.menu_btn.Margin = new System.Windows.Forms.Padding(4);
-            this.menu_btn.Name = "menu_btn";
-            this.menu_btn.Size = new System.Drawing.Size(40, 25);
-            this.menu_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.menu_btn.TabIndex = 1;
-            this.menu_btn.TabStop = false;
-            this.menu_btn.Click += new System.EventHandler(this.menu_btn_Click);
+            this.profile_btn.Click += new System.EventHandler(this.profile_btn_Click);
             // 
             // bookOps_panel
             // 
@@ -315,17 +327,6 @@
             this.book_btn.UseVisualStyleBackColor = false;
             this.book_btn.Click += new System.EventHandler(this.book_btn_Click);
             // 
-            // appLogo_picbox
-            // 
-            this.appLogo_picbox.Image = ((System.Drawing.Image)(resources.GetObject("appLogo_picbox.Image")));
-            this.appLogo_picbox.Location = new System.Drawing.Point(81, 57);
-            this.appLogo_picbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.appLogo_picbox.Name = "appLogo_picbox";
-            this.appLogo_picbox.Size = new System.Drawing.Size(141, 130);
-            this.appLogo_picbox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.appLogo_picbox.TabIndex = 0;
-            this.appLogo_picbox.TabStop = false;
-            // 
             // sidebarTransition_timer
             // 
             this.sidebarTransition_timer.Interval = 10;
@@ -342,10 +343,10 @@
             // 
             // main_panel
             // 
-            this.main_panel.Location = new System.Drawing.Point(324, 78);
+            this.main_panel.Location = new System.Drawing.Point(324, 0);
             this.main_panel.Margin = new System.Windows.Forms.Padding(4);
             this.main_panel.Name = "main_panel";
-            this.main_panel.Size = new System.Drawing.Size(1272, 714);
+            this.main_panel.Size = new System.Drawing.Size(1272, 792);
             this.main_panel.TabIndex = 4;
             // 
             // panel1
@@ -415,13 +416,14 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.IsMdiContainer = true;
             this.Name = "User_Form";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "User_Form";
             this.Load += new System.EventHandler(this.User_Form_Load);
             this.sidebar_panel.ResumeLayout(false);
-            this.userOps_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.menu_btn)).EndInit();
-            this.bookOps_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.appLogo_picbox)).EndInit();
+            this.userOps_panel.ResumeLayout(false);
+            this.bookOps_panel.ResumeLayout(false);
             this.background_panel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

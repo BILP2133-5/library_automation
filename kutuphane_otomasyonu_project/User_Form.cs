@@ -131,5 +131,11 @@ namespace kutuphane_otomasyonu_project
             main_panel.Controls.Add(form);
             form.Show();
         }
+
+        private void profile_btn_Click(object sender, EventArgs e)
+        {
+            User_Profile_Form user_Profile_Form = new User_Profile_Form();
+            getForm(user_Profile_Form);
+        }
     }
 }

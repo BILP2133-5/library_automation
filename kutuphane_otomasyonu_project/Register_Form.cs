@@ -29,6 +29,7 @@ namespace kutuphane_otomasyonu_project
             return Regex.IsMatch(email, emailPattern);
         }
 
+        public static string userId, userToken;
         private async void register_btn_Click(object sender, EventArgs e)
         {
             if (!IsValidEmail(email_text.Text))
@@ -53,13 +54,14 @@ namespace kutuphane_otomasyonu_project
                         string registerJsonResponse = await registerResponse.Content.ReadAsStringAsync();
                         //Token userResponse = JsonConvert.DeserializeObject<Token>(jsonResponse);
                         var loginJsonData = JsonConvert.DeserializeObject<dynamic>(registerJsonResponse);
-                        Login_Form.userToken = loginJsonData.token;
+                        userToken = loginJsonData.token;
+                        
                         MessageBox.Show("Kayıt olundu.");
 
                         string protectedUrl = "http://localhost:3000/auth/protected";
                         using (HttpClient client = new HttpClient())
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
                             var authUserResponse = await client.GetAsync(protectedUrl);
 
 
@@ -70,6 +72,11 @@ namespace kutuphane_otomasyonu_project
                                 var authUserContent = await authUserResponse.Content.ReadAsStringAsync();
                                 var authUserJsonData = JsonConvert.DeserializeObject<dynamic>(authUserContent);
                                 string role = authUserJsonData.user.role;
+                                userId = authUserJsonData.user._id;
+                                //MessageBox.Show(authUserContent);
+                                //MessageBox.Show(role);
+                                //MessageBox.Show(userId);
+
 
                                 //MessageBox.Show(role);
 

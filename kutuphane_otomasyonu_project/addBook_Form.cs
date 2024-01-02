@@ -49,7 +49,7 @@ namespace kutuphane_otomasyonu_project
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
                     var authUserResponse = await client.GetAsync(protectedUrl);
-                    MessageBox.Show(authUserResponse.ToString());
+                    //MessageBox.Show(authUserResponse.ToString());
 
                     if (authUserResponse.IsSuccessStatusCode)
                     {

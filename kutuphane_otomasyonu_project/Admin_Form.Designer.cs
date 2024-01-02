@@ -52,6 +52,7 @@
             this.minimize_btn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.background_panel = new System.Windows.Forms.Panel();
+            this.addAdmin_btn = new System.Windows.Forms.Button();
             this.addBook_btn = new System.Windows.Forms.Button();
             this.main_panel = new System.Windows.Forms.Panel();
             this.sidebar_panel.SuspendLayout();
@@ -410,6 +411,7 @@
             // 
             // background_panel
             // 
+            this.background_panel.Controls.Add(this.addAdmin_btn);
             this.background_panel.Controls.Add(this.addBook_btn);
             this.background_panel.Controls.Add(this.main_panel);
             this.background_panel.Location = new System.Drawing.Point(0, 50);
@@ -417,6 +419,30 @@
             this.background_panel.Name = "background_panel";
             this.background_panel.Size = new System.Drawing.Size(1600, 805);
             this.background_panel.TabIndex = 3;
+            // 
+            // addAdmin_btn
+            // 
+            this.addAdmin_btn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.addAdmin_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(181)))));
+            this.addAdmin_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.addAdmin_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addAdmin_btn.FlatAppearance.BorderSize = 0;
+            this.addAdmin_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addAdmin_btn.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.addAdmin_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.addAdmin_btn.Image = ((System.Drawing.Image)(resources.GetObject("addAdmin_btn.Image")));
+            this.addAdmin_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addAdmin_btn.Location = new System.Drawing.Point(1411, 25);
+            this.addAdmin_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.addAdmin_btn.Name = "addAdmin_btn";
+            this.addAdmin_btn.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.addAdmin_btn.Size = new System.Drawing.Size(101, 38);
+            this.addAdmin_btn.TabIndex = 24;
+            this.addAdmin_btn.Text = "      add";
+            this.addAdmin_btn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addAdmin_btn.UseVisualStyleBackColor = false;
+            this.addAdmin_btn.Visible = false;
+            this.addAdmin_btn.Click += new System.EventHandler(this.addAdmin_btn_Click);
             // 
             // addBook_btn
             // 
@@ -430,7 +456,7 @@
             this.addBook_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.addBook_btn.Image = ((System.Drawing.Image)(resources.GetObject("addBook_btn.Image")));
             this.addBook_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addBook_btn.Location = new System.Drawing.Point(1244, 25);
+            this.addBook_btn.Location = new System.Drawing.Point(1411, 25);
             this.addBook_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.addBook_btn.Name = "addBook_btn";
             this.addBook_btn.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
@@ -502,7 +528,8 @@
         private System.Windows.Forms.Button minimize_btn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel background_panel;
-        private System.Windows.Forms.Button addBook_btn;
         public System.Windows.Forms.Panel main_panel;
+        public System.Windows.Forms.Button addBook_btn;
+        public System.Windows.Forms.Button addAdmin_btn;
     }
 }

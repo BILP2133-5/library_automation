@@ -35,7 +35,7 @@
             // 
             this.main_panel.Location = new System.Drawing.Point(92, 0);
             this.main_panel.Name = "main_panel";
-            this.main_panel.Size = new System.Drawing.Size(1131, 727);
+            this.main_panel.Size = new System.Drawing.Size(1131, 715);
             this.main_panel.TabIndex = 0;
             // 
             // BookList_Form

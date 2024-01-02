@@ -6,9 +6,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static kutuphane_otomasyonu_project.User_Profile_Form;
 
 namespace kutuphane_otomasyonu_project
 {
@@ -154,10 +156,10 @@ namespace kutuphane_otomasyonu_project
                         bookImage.SizeMode = PictureBoxSizeMode.StretchImage;
                         bookImage.Size = new Size(75, 100);
                         bookImage.Location = new Point(cardPanel.Width / 2 - 37, 10);
-                        if (bookDataList[i].borrowedAt != null)
-                        {
-                            MessageBox.Show(bookDataList[i].borrowedAt);
-                        }
+                        //if (bookDataList[i].borrowedAt != null)
+                        //{
+                        //    MessageBox.Show(bookDataList[i].borrowedAt);
+                        //}
                         
 
                         Label titleLabel = new Label();
@@ -203,7 +205,7 @@ namespace kutuphane_otomasyonu_project
                             borrowButton.FlatAppearance.BorderSize = 0;
                             borrowButton.BackColor = Color.FromArgb(0, 173, 181);
                             borrowButton.ForeColor = Color.FromArgb(238, 238, 238);
-                            borrowButton.Click += new EventHandler(update_btn_Click);
+                            borrowButton.Click += new EventHandler(borrowButton_Click);
                             //updateButton.Size = new Size(20, 20);
                             borrowButton.AutoSize = true;
                             borrowButton.Margin = new Padding(15, borrowButton.Margin.Top, 15, borrowButton.Margin.Bottom);
@@ -267,7 +269,46 @@ namespace kutuphane_otomasyonu_project
             }
 
         }
-        public string bookId;
+        public string bookId, userId;
+
+        private async void borrowButton_Click(object sender, EventArgs e)
+        {
+            if (Login_Form.userId != null)
+            {
+                userId = Login_Form.userId;
+            }
+            else if (Register_Form.userId != null)
+            {
+                userId = Register_Form.userId;
+            }
+            Button clickedButton = sender as Button;
+            bookId = clickedButton.Tag as string;
+            //MessageBox.Show(bookId);
+            //MessageBox.Show(Login_Form.userId);
+            string apiUrl = "http://localhost:3000/books/loan/" + bookId;
+            using (HttpClient client = new HttpClient())
+            {
+                string postData = $"{{ \"userId\": \"{userId}\" }}";
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    StringContent content = new StringContent(postData, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await httpClient.PostAsync(apiUrl, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Başarılı yanıt
+                        string responseContent = await response.Content.ReadAsStringAsync();
+                        MessageBox.Show("işlem Başarılı");
+                    }
+                    else
+                    {
+                        // Hata durumu
+                        MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
+                    }
+                }
+            }
+        }
         private async void update_btn_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;

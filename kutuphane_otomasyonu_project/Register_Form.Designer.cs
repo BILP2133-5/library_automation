@@ -367,7 +367,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Panel loginRight_panel;
         private System.Windows.Forms.Button register_btn;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel password_panel;
@@ -387,5 +386,6 @@
         private System.Windows.Forms.Panel email_panel;
         private System.Windows.Forms.TextBox email_text;
         private System.Windows.Forms.PictureBox emailLogo_pic;
+        public System.Windows.Forms.Panel loginRight_panel;
     }
 }

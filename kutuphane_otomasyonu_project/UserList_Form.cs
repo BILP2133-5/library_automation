@@ -46,166 +46,284 @@ namespace kutuphane_otomasyonu_project
         RadioButtonData userRadioButtonData, adminRadioButtonData;
         private async void UserList_Form_Load(object sender, EventArgs e)
         {
-            //FlowLayoutPanel mainFlowLayoutPanel = new FlowLayoutPanel();
-            //mainFlowLayoutPanel.FlowDirection = FlowDirection.TopDown;
-            ////mainFlowLayoutPanel.Size = new Size(-500, -500);
-            //mainFlowLayoutPanel.BorderStyle = BorderStyle.FixedSingle;
             main_panel.AutoScroll = true;
-            //main_panel.Controls.Add(mainFlowLayoutPanel);
-
             string apiUrl = "http://localhost:3000/users/";
-
+            string protectedUrl = "http://localhost:3000/auth/protected";
             using (HttpClient client = new HttpClient())
             {
-                try
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                var authUserResponse = await client.GetAsync(protectedUrl);
+
+                if (authUserResponse.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
-                    response.EnsureSuccessStatusCode();
-                    string json = await response.Content.ReadAsStringAsync();
+                    var authUserContent = await authUserResponse.Content.ReadAsStringAsync();
+                    var authUserJsonData = JsonConvert.DeserializeObject<dynamic>(authUserContent);
 
-                    List<UserData> userDataList = JsonConvert.DeserializeObject<List<UserData>>(json);
-
-                    for (int i = 0; i < userDataList.Count; i++)
+                    using (HttpClient clientt = new HttpClient())
                     {
-                        FlowLayoutPanel rowFlowPanel = new FlowLayoutPanel();
-                        rowFlowPanel.BorderStyle = BorderStyle.FixedSingle;
-                        //rowFlowPanel.AutoSize = true;
-                        rowFlowPanel.Size = new Size(main_panel.Width-50, main_panel.Height/15);
-                        rowFlowPanel.Location = new Point(0, 0);
-                        //rowFlowPanel.Margin = new Padding(0);
-
-
-                        //PictureBox bookImage = new PictureBox();
-                        //bookImage.ImageLocation = userDataList[i].imageUrl;
-                        //bookImage.SizeMode = PictureBoxSizeMode.StretchImage;
-                        //bookImage.Size = new Size(75, 100);
-                        //bookImage.Location = new Point(cardPanel.Width / 2 - 37, 10);
-
-                        Label userNameLabel = new Label();
-                        userNameLabel.Text = userDataList[i].name;
-                        changeStyle(userNameLabel);
-                        //userNameLabel.Location = new Point(0, -rowFlowPanel.Location.Y);
-                        userNameLabel.Height = rowFlowPanel.Height;
-                        userNameLabel.Width = rowFlowPanel.Width / 6;
-                        //userNameLabel.Size = new Size(rowFlowPanel.Width/6, rowFlowPanel.Height);
-                        userNameLabel.TextAlign = ContentAlignment.MiddleCenter;
-
-                        Label userEmailLabel = new Label();
-                        //userEmailLabel.Location = new Point(0, -rowFlowPanel.Location.Y);
-                        userEmailLabel.Height = rowFlowPanel.Height;
-                        userEmailLabel.Width = rowFlowPanel.Width / 4;
-                        //userEmailLabel.Size = new Size(rowFlowPanel.Width / 4, rowFlowPanel.Height);
-                        userEmailLabel.TextAlign = ContentAlignment.MiddleCenter;
-                        userEmailLabel.Text = userDataList[i].email;
-                        changeStyle(userEmailLabel);
-
-                        //role radio buttons
-                        RadioButton userRadioButton = new RadioButton();
-                        userRadioButton.Text = "user";
-                        changeStyle(userRadioButton);
-                        //userRadioButton.Location = new Point(0, 0);
-                        userRadioButton.Height = rowFlowPanel.Height;
-                        //userRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
-                        //userRadioButton.TextAlign = ContentAlignment.MiddleLeft;
-                        userRadioButton.Click += new EventHandler(adminRadioButton_Click);
-                        userRadioButtonData = new RadioButtonData();
-                        userRadioButtonData.Id = userDataList[i]._id;
-                        userRadioButtonData.Role = "user";
-                        userRadioButton.Tag = userRadioButtonData;
-
-                        RadioButton adminRadioButton = new RadioButton();
-                        adminRadioButton.Text = "admin";
-                        changeStyle(adminRadioButton);
-                        adminRadioButton.Height = rowFlowPanel.Height;
-                        //adminRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
-                        //adminRadioButton.Location = new Point(0, rowFlowPanel.Height/2);
-                        //adminRadioButton.Width = rowFlowPanel.Width / 8;
-                        //adminRadioButton.TextAlign = ContentAlignment.MiddleLeft;
-                        adminRadioButton.Click += new EventHandler(adminRadioButton_Click);
-                        adminRadioButtonData = new RadioButtonData();
-                        adminRadioButtonData.Id = userDataList[i]._id;
-                        adminRadioButtonData.Role = "admin";
-                        adminRadioButton.Tag = adminRadioButtonData;
-
-                        if (userDataList[i].role == "user")
+                        try
                         {
-                            userRadioButton.Checked = true;
-                        }
+                            var response = await clientt.GetAsync(apiUrl);
+                            response.EnsureSuccessStatusCode();
+                            string json = await response.Content.ReadAsStringAsync();
 
-                        else
+                            List<UserData> userDataList = JsonConvert.DeserializeObject<List<UserData>>(json);
+
+                            for (int i = 0; i < userDataList.Count; i++)
+                            {
+                                if (authUserJsonData.user.role == "superadmin")
+                                {
+                                    if (userDataList[i].role != "superadmin")
+                                    {
+                                        FlowLayoutPanel rowFlowPanel = new FlowLayoutPanel();
+                                        rowFlowPanel.BorderStyle = BorderStyle.FixedSingle;
+                                        rowFlowPanel.Size = new Size(main_panel.Width - 10, main_panel.Height / 15);
+                                        rowFlowPanel.Location = new Point(0, 0);
+                                        rowFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+
+                                        Label userNameLabel = new Label();
+                                        userNameLabel.Text = userDataList[i].name;
+                                        changeStyle(userNameLabel);
+                                        userNameLabel.Height = rowFlowPanel.Height;
+                                        userNameLabel.Width = rowFlowPanel.Width * 4 / 14;
+                                        userNameLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+                                        Label userEmailLabel = new Label();
+                                        userEmailLabel.Height = rowFlowPanel.Height;
+                                        userEmailLabel.Width = rowFlowPanel.Width * 4 / 14;
+                                        userEmailLabel.TextAlign = ContentAlignment.MiddleLeft;
+                                        userEmailLabel.Text = userDataList[i].email;
+                                        changeStyle(userEmailLabel);
+
+                                        Label userRoleLabel = new Label();
+                                        userRoleLabel.Height = rowFlowPanel.Height;
+                                        userRoleLabel.Width = rowFlowPanel.Width * 3 / 14;
+                                        userRoleLabel.TextAlign = ContentAlignment.MiddleLeft;
+                                        userRoleLabel.Text = "role: " + userDataList[i].role;
+                                        changeStyle(userRoleLabel);
+
+                                        rowFlowPanel.Controls.Add(userNameLabel);
+                                        rowFlowPanel.Controls.Add(userEmailLabel);
+                                        rowFlowPanel.Controls.Add(userRoleLabel);
+
+                                        FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
+                                        flowLayoutPanel.BorderStyle = BorderStyle.None;
+                                        flowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
+
+                                        Button removeButton = new Button();
+                                        removeButton.Text = "remove";
+                                        removeButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                                        removeButton.FlatStyle = FlatStyle.Flat;
+                                        removeButton.FlatAppearance.BorderSize = 0;
+                                        removeButton.BackColor = Color.FromArgb(0, 173, 181);
+                                        removeButton.ForeColor = Color.FromArgb(238, 238, 238);
+                                        removeButton.AutoSize = false;
+                                        removeButton.Size = new Size(76, 31);
+                                        removeButton.TextAlign = ContentAlignment.MiddleCenter;
+                                        removeButton.Tag = userDataList[i]._id;
+                                        removeButton.Click += new EventHandler(remove_btn_Click);
+                                        if (userDataList[i].role != "admin")
+                                        {
+                                            Button detailButton = new Button();
+                                            detailButton.Text = "detail";
+                                            detailButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                                            detailButton.FlatStyle = FlatStyle.Flat;
+                                            detailButton.FlatAppearance.BorderSize = 0;
+                                            detailButton.BackColor = Color.FromArgb(0, 173, 181);
+                                            detailButton.ForeColor = Color.FromArgb(238, 238, 238);
+                                            detailButton.AutoSize = false;
+                                            detailButton.Size = new Size(76, 31);
+                                            detailButton.TextAlign = ContentAlignment.MiddleCenter;
+                                            detailButton.Tag = userDataList[i]._id;
+                                            detailButton.Click += new EventHandler(remove_btn_Click);
+                                            flowLayoutPanel.Controls.Add(detailButton);
+                                            rowFlowPanel.Controls.Add(detailButton);
+                                        }
+                                        flowLayoutPanel.Controls.Add(removeButton);
+                                        rowFlowPanel.Controls.Add(removeButton);
+                                        rowFlowPanel.Controls.Add(flowLayoutPanel);
+
+                                        main_panel.Controls.Add(rowFlowPanel);
+
+                                    }
+                                }
+
+                                else
+                                {
+                                    if (userDataList[i].role != "superadmin" && userDataList[i].role != "admin")
+                                    {
+                                        FlowLayoutPanel rowFlowPanel = new FlowLayoutPanel();
+                                        rowFlowPanel.BorderStyle = BorderStyle.FixedSingle;
+                                        rowFlowPanel.Size = new Size(main_panel.Width - 10, main_panel.Height / 15);
+                                        rowFlowPanel.Location = new Point(0, 0);
+                                        rowFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+
+                                        Label userNameLabel = new Label();
+                                        userNameLabel.Text = userDataList[i].name;
+                                        changeStyle(userNameLabel);
+                                        userNameLabel.Height = rowFlowPanel.Height;
+                                        userNameLabel.Width = rowFlowPanel.Width * 4 / 14;
+                                        userNameLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+                                        Label userEmailLabel = new Label();
+                                        userEmailLabel.Height = rowFlowPanel.Height;
+                                        userEmailLabel.Width = rowFlowPanel.Width * 4 / 14;
+                                        userEmailLabel.TextAlign = ContentAlignment.MiddleLeft;
+                                        userEmailLabel.Text = userDataList[i].email;
+                                        changeStyle(userEmailLabel);
+
+                                        Label userRoleLabel = new Label();
+                                        userRoleLabel.Height = rowFlowPanel.Height;
+                                        userRoleLabel.Width = rowFlowPanel.Width * 3 / 14;
+                                        userRoleLabel.TextAlign = ContentAlignment.MiddleLeft;
+                                        userRoleLabel.Text = "role: " + userDataList[i].role;
+                                        changeStyle(userRoleLabel);
+
+                                        rowFlowPanel.Controls.Add(userNameLabel);
+                                        rowFlowPanel.Controls.Add(userEmailLabel);
+                                        rowFlowPanel.Controls.Add(userRoleLabel);
+
+                                        FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
+                                        flowLayoutPanel.BorderStyle = BorderStyle.None;
+                                        flowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
+
+                                        Button detailButton = new Button();
+                                        detailButton.Text = "detail";
+                                        detailButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                                        detailButton.FlatStyle = FlatStyle.Flat;
+                                        detailButton.FlatAppearance.BorderSize = 0;
+                                        detailButton.BackColor = Color.FromArgb(0, 173, 181);
+                                        detailButton.ForeColor = Color.FromArgb(238, 238, 238);
+                                        detailButton.AutoSize = false;
+                                        detailButton.Size = new Size(76, 31);
+                                        detailButton.TextAlign = ContentAlignment.MiddleCenter;
+                                        detailButton.Tag = userDataList[i]._id;
+                                        detailButton.Click += new EventHandler(remove_btn_Click);
+                                        flowLayoutPanel.Controls.Add(detailButton);
+                                        rowFlowPanel.Controls.Add(detailButton);
+                                        rowFlowPanel.Controls.Add(flowLayoutPanel);
+
+                                        main_panel.Controls.Add(rowFlowPanel);
+
+                                    }
+                                }
+                                //if (userDataList[i].role != "superadmin")
+                                //{
+                                //    FlowLayoutPanel rowFlowPanel = new FlowLayoutPanel();
+                                //    rowFlowPanel.BorderStyle = BorderStyle.FixedSingle;
+                                //    rowFlowPanel.Size = new Size(main_panel.Width - 10, main_panel.Height / 15);
+                                //    rowFlowPanel.Location = new Point(0, 0);
+                                //    rowFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+
+                                //    Label userNameLabel = new Label();
+                                //    userNameLabel.Text = userDataList[i].name;
+                                //    changeStyle(userNameLabel);
+                                //    userNameLabel.Height = rowFlowPanel.Height;
+                                //    userNameLabel.Width = rowFlowPanel.Width * 4 / 14;
+                                //    userNameLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+                                //    Label userEmailLabel = new Label();
+                                //    userEmailLabel.Height = rowFlowPanel.Height;
+                                //    userEmailLabel.Width = rowFlowPanel.Width * 4 / 14;
+                                //    userEmailLabel.TextAlign = ContentAlignment.MiddleLeft;
+                                //    userEmailLabel.Text = userDataList[i].email;
+                                //    changeStyle(userEmailLabel);
+
+                                //    Label userRoleLabel = new Label();
+                                //    userRoleLabel.Height = rowFlowPanel.Height;
+                                //    userRoleLabel.Width = rowFlowPanel.Width * 3 / 14;
+                                //    userRoleLabel.TextAlign = ContentAlignment.MiddleLeft;
+                                //    userRoleLabel.Text = "role: " + userDataList[i].role;
+                                //    changeStyle(userRoleLabel);
+
+                                //    rowFlowPanel.Controls.Add(userNameLabel);
+                                //    rowFlowPanel.Controls.Add(userEmailLabel);
+                                //    rowFlowPanel.Controls.Add(userRoleLabel);
+
+                                //    if (authUserJsonData.user.role == "superadmin")
+                                //    {
+                                //        FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
+                                //        flowLayoutPanel.BorderStyle = BorderStyle.None;
+                                //        flowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
+
+                                //        Button removeButton = new Button();
+                                //        removeButton.Text = "remove";
+                                //        removeButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                                //        removeButton.FlatStyle = FlatStyle.Flat;
+                                //        removeButton.FlatAppearance.BorderSize = 0;
+                                //        removeButton.BackColor = Color.FromArgb(0, 173, 181);
+                                //        removeButton.ForeColor = Color.FromArgb(238, 238, 238);
+                                //        removeButton.AutoSize = false;
+                                //        removeButton.Size = new Size(76, 31);
+                                //        removeButton.TextAlign = ContentAlignment.MiddleCenter;
+                                //        removeButton.Tag = userDataList[i]._id;
+                                //        removeButton.Click += new EventHandler(remove_btn_Click);
+                                //        if (userDataList[i].role != "admin")
+                                //        {
+                                //            Button detailButton = new Button();
+                                //            detailButton.Text = "detail";
+                                //            detailButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                                //            detailButton.FlatStyle = FlatStyle.Flat;
+                                //            detailButton.FlatAppearance.BorderSize = 0;
+                                //            detailButton.BackColor = Color.FromArgb(0, 173, 181);
+                                //            detailButton.ForeColor = Color.FromArgb(238, 238, 238);
+                                //            detailButton.AutoSize = false;
+                                //            detailButton.Size = new Size(76, 31);
+                                //            detailButton.TextAlign = ContentAlignment.MiddleCenter;
+                                //            detailButton.Tag = userDataList[i]._id;
+                                //            detailButton.Click += new EventHandler(remove_btn_Click);
+                                //            flowLayoutPanel.Controls.Add(detailButton);
+                                //            rowFlowPanel.Controls.Add(detailButton);
+                                //        }
+                                //        flowLayoutPanel.Controls.Add(removeButton);
+                                //        rowFlowPanel.Controls.Add(removeButton);
+                                //        rowFlowPanel.Controls.Add(flowLayoutPanel);
+                                //    }
+
+                                //    else if (authUserJsonData.user.role == "admin")
+                                //    {
+                                //        FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
+                                //        flowLayoutPanel.BorderStyle = BorderStyle.None;
+                                //        flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
+
+                                //        Button detailButton = new Button();
+                                //        detailButton.Text = "detail";
+                                //        detailButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                                //        detailButton.FlatStyle = FlatStyle.Flat;
+                                //        detailButton.FlatAppearance.BorderSize = 0;
+                                //        detailButton.BackColor = Color.FromArgb(0, 173, 181);
+                                //        detailButton.ForeColor = Color.FromArgb(238, 238, 238);
+                                //        detailButton.AutoSize = false;
+                                //        detailButton.Size = new Size(76, 31);
+                                //        detailButton.TextAlign = ContentAlignment.MiddleCenter;
+                                //        detailButton.Tag = userDataList[i]._id;
+                                //        detailButton.Click += new EventHandler(remove_btn_Click);
+
+                                //        flowLayoutPanel.Controls.Add(detailButton);
+                                //        rowFlowPanel.Controls.Add(detailButton);
+                                //        rowFlowPanel.Controls.Add(flowLayoutPanel);
+
+                                //    }
+                                //    main_panel.Controls.Add(rowFlowPanel);
+                                //}
+                            }
+
+                            this.Controls.Add(main_panel);
+                        }
+                        catch (HttpRequestException ex)
                         {
-                            adminRadioButton.Checked = true;
+                            MessageBox.Show($"Error: {ex.Message}");
                         }
-
-
-                            ////RichTextBox
-                            //RichTextBox aboutBook = new RichTextBox();
-                            //aboutBook.ScrollBars = RichTextBoxScrollBars.Vertical;
-                            //aboutBook.Text = userDataList[i].aboutBook;
-                            //aboutBook.Size = new Size(cardPanel.Width - 10, 220);
-                            ////aboutBook.Width = cardPanel.Width - 10;
-                            ////aboutBook.Height = 200;
-                            //aboutBook.Location = new Point(5, 175);
-                            //aboutBook.BackColor = Color.FromArgb(34, 40, 49);
-                            //aboutBook.BorderStyle = BorderStyle.FixedSingle;
-                            //changeStyle(aboutBook);
-
-
-
-                            //Buttons
-                        //    Button updateButton = new Button();
-                        //updateButton.Text = "update";
-                        //updateButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                        //updateButton.FlatStyle = FlatStyle.Flat;
-                        //updateButton.FlatAppearance.BorderSize = 0;
-                        //updateButton.BackColor = Color.FromArgb(0, 173, 181);
-                        //updateButton.ForeColor = Color.FromArgb(238, 238, 238);
-                        //updateButton.Click += new EventHandler(update_btn_Click);
-                        ////updateButton.Size = new Size(20, 20);
-                        //updateButton.AutoSize = true;
-                        ////updateButton.Margin = new Padding(15, updateButton.Margin.Top, 15, updateButton.Margin.Bottom);
-                        //updateButton.Tag = userDataList[i]._id;
-                        //updateButton.Enabled = false;
-                        ////updateButton.Location = new Point(0, rowFlowPanel.Height/2);
-
-                        Button removeButton = new Button();
-                        removeButton.Text = "remove";
-                        removeButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                        removeButton.FlatStyle = FlatStyle.Flat;
-                        removeButton.FlatAppearance.BorderSize = 0;
-                        removeButton.BackColor = Color.FromArgb(0, 173, 181);
-                        removeButton.ForeColor = Color.FromArgb(238, 238, 238);
-                        removeButton.AutoSize = true;
-                        removeButton.Tag = userDataList[i]._id;
-                        removeButton.Click += new EventHandler(remove_btn_Click);
-                        //removeButton.AutoSize = true;
-                        //removeButton.Location = new Point(0, -20);
-
-                        //FlowLayoutPanel fr Buttons
-                        //FlowLayoutPanel buttonPanel = new FlowLayoutPanel();
-                        ////buttonPanel.AutoSize = true;
-                        //buttonPanel.FlowDirection = FlowDirection.LeftToRight;
-                        //buttonPanel.Location = new Point(0, 405);
-                        //buttonPanel.Controls.Add(updateButton);
-                        //buttonPanel.Controls.Add(removeButton);
-
-                        rowFlowPanel.Controls.Add(userNameLabel);
-                        rowFlowPanel.Controls.Add(userEmailLabel);
-                        rowFlowPanel.Controls.Add(userRadioButton);
-                        rowFlowPanel.Controls.Add(adminRadioButton);
-                        //rowFlowPanel.Controls.Add(updateButton);
-                        rowFlowPanel.Controls.Add(removeButton);
-                        main_panel.Controls.Add(rowFlowPanel);
                     }
+                    isLoaded = true;
+                    if (authUserJsonData.user.role == "superadmin")
+                    {
 
-                    this.Controls.Add(main_panel);
-                }
-                catch (HttpRequestException ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
+                    }
                 }
             }
-            isLoaded = true;
+
+
         }
         //Button updateButton = null;
         //private async void userRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -242,13 +360,13 @@ namespace kutuphane_otomasyonu_project
 
         //            }
         //        }
-                
+
         //    }
         //}
 
         private async void adminRadioButton_Click(object sender, EventArgs e)
         {
-            if(isLoaded)
+            if (isLoaded)
             {
                 RadioButton radioButton = sender as RadioButton;
                 RadioButtonData storedData = radioButton.Tag as RadioButtonData;
@@ -301,10 +419,10 @@ namespace kutuphane_otomasyonu_project
                                 MessageBox.Show("Yetkisiz İşlem!");
                             }
                         }
-                    }               
+                    }
                     //if (adminRadioButton.Checked)
                     //{
-                    
+
 
                     //else
                     //{
@@ -334,7 +452,7 @@ namespace kutuphane_otomasyonu_project
                     radioButton.Checked = false;
                 }
             }
-            
+
         }
         private async void userRadioButton_Click(object sender, EventArgs e)
         {
@@ -477,32 +595,40 @@ namespace kutuphane_otomasyonu_project
 
         private async void remove_btn_Click(object sender, EventArgs e)
         {
-            //Button clickedButton = (Button)sender;
-            //userId = (string)clickedButton.Tag;
+            Button clickedButton = (Button)sender;
+            string userId = (string)clickedButton.Tag;
+            MessageBox.Show(userId);
 
-            //string removeBookUrl = "http://localhost:3000/books/remove";
+            string removeUserUrl = $"http://localhost:3000/users/remove/{userId}";
 
-            //using (HttpClient httpClient = new HttpClient())
-            //{
-            //    HttpResponseMessage response = await httpClient.DeleteAsync($"{removeBookUrl}/{userId}");
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                HttpResponseMessage response = await httpClient.DeleteAsync(removeUserUrl);
 
-
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        // Başarılı yanıt
-            //        MessageBox.Show("işlem Başarılı");
-            //        Application.OpenForms["Admin_Form"].Hide();
-
-            //        Admin_Form admin_Form = new Admin_Form();
-            //        admin_Form.Show();
-
-            //    }
-            //    else
-            //    {
-            //        // Hata durumu
-            //        MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
-            //    }
-            //}
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("İşlem Başarılı");
+                    Application.OpenForms["Admin_Form"].Hide();
+                    Admin_Form admin_Form = new Admin_Form();
+                    admin_Form.Show();
+                    //User_Form user_Form = new User_Form();
+                    //getForm(user_Form);
+                }
+                else
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"API yanıtı başarısız: {response.StatusCode}\nDetay: {responseContent}");
+                }
+            }
         }
+        //public void getForm(Form form)
+        //{
+        //    main_panel.Controls.Clear();
+        //    form.MdiParent = this;
+        //    form.FormBorderStyle = FormBorderStyle.None;
+        //    main_panel.Controls.Add(form);
+        //    form.Show();
+        //}
     }
 }
