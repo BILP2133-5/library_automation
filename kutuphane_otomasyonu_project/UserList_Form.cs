@@ -135,7 +135,7 @@ namespace kutuphane_otomasyonu_project
                                             detailButton.Size = new Size(76, 31);
                                             detailButton.TextAlign = ContentAlignment.MiddleCenter;
                                             detailButton.Tag = userDataList[i]._id;
-                                            detailButton.Click += new EventHandler(remove_btn_Click);
+                                            detailButton.Click += new EventHandler(detail_btn_Click);
                                             flowLayoutPanel.Controls.Add(detailButton);
                                             rowFlowPanel.Controls.Add(detailButton);
                                         }
@@ -198,7 +198,7 @@ namespace kutuphane_otomasyonu_project
                                         detailButton.Size = new Size(76, 31);
                                         detailButton.TextAlign = ContentAlignment.MiddleCenter;
                                         detailButton.Tag = userDataList[i]._id;
-                                        detailButton.Click += new EventHandler(remove_btn_Click);
+                                        detailButton.Click += new EventHandler(detail_btn_Click);
                                         flowLayoutPanel.Controls.Add(detailButton);
                                         rowFlowPanel.Controls.Add(detailButton);
                                         rowFlowPanel.Controls.Add(flowLayoutPanel);
@@ -597,7 +597,7 @@ namespace kutuphane_otomasyonu_project
         {
             Button clickedButton = (Button)sender;
             string userId = (string)clickedButton.Tag;
-            MessageBox.Show(userId);
+            //MessageBox.Show(userId);
 
             string removeUserUrl = $"http://localhost:3000/users/remove/{userId}";
 
@@ -622,6 +622,31 @@ namespace kutuphane_otomasyonu_project
                 }
             }
         }
+        public static bool fromAdminForm = false;
+        private async void detail_btn_Click(object sender, EventArgs e)
+        {
+            fromAdminForm = true;
+            Button clickedButton = (Button)sender;
+            string userId = (string)clickedButton.Tag;
+            User_Profile_Form user_Profile_Form = new User_Profile_Form();
+            this.Invoke(new MethodInvoker(() =>
+            {
+                Admin_Form admin_Form = Application.OpenForms["Admin_Form"] as Admin_Form;
+                Login_Form login_Form = Application.OpenForms["Login_Form"] as Login_Form;
+
+                if (admin_Form != null && login_Form != null)
+                {
+                    Login_Form.userId = userId;
+                    admin_Form.addAdmin_btn.Visible = false;
+                    admin_Form.main_panel.Controls.Clear();
+                    user_Profile_Form.MdiParent = admin_Form;
+                    user_Profile_Form.FormBorderStyle = FormBorderStyle.None;
+                    admin_Form.main_panel.Controls.Add(user_Profile_Form);
+                    user_Profile_Form.Show();
+                }
+            }));
+        }
+
         //public void getForm(Form form)
         //{
         //    main_panel.Controls.Clear();

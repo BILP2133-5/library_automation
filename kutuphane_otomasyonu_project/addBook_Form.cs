@@ -54,7 +54,7 @@ namespace kutuphane_otomasyonu_project
                     if (authUserResponse.IsSuccessStatusCode)
                     {
                         string postBookUrl = "http://localhost:3000/books/add";
-                        MessageBox.Show(aboutBook_rchtxt.Text.Replace("\"", "\\\"").Replace(Environment.NewLine, "\\n"));
+                        //MessageBox.Show(aboutBook_rchtxt.Text.Replace("\"", "\\\"").Replace(Environment.NewLine, "\\n"));
                         string postData = $"{{ \"bookName\": \"{bookName_txt.Text}\", \"publicationYear\": \"{Convert.ToInt16(publicationYear_txt.Text)}\", \"publisher\": \"{publisher_txt.Text}\", \"language\": \"{language_txt.Text}\", \"author\": \"{author_txt.Text}\", \"aboutBook\": \"{aboutBook_rchtxt.Text.Replace("\r\n", "\\n").Replace("\n", "\\n").Replace("<br>", "\\n").Replace("\"", "''")}\", \"imageUrl\": \"{imgUrl_text.Text}\" }}";
                         //MessageBox.Show(aboutBook_rchtxt.Text.Replace("\"", "``").Replace(" ", " "));
 

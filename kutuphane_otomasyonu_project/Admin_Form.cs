@@ -15,6 +15,10 @@ namespace kutuphane_otomasyonu_project
     public partial class Admin_Form : Form
     {
         //public static Admin_Form instance;
+        private bool dragging = false;
+        private Point dragCursorPoint;
+        private Point dragFormPoint;
+
         public Admin_Form()
         {
             InitializeComponent();
@@ -43,6 +47,11 @@ namespace kutuphane_otomasyonu_project
             {
                 imgResize25(button);
             }
+
+            panel1.MouseDown += new MouseEventHandler(DragPanel_MouseDown);
+            panel1.MouseMove += new MouseEventHandler(DragPanel_MouseMove);
+            panel1.MouseUp += new MouseEventHandler(DragPanel_MouseUp);
+
         }
 
         void imgResize20(Button button)
@@ -239,8 +248,31 @@ namespace kutuphane_otomasyonu_project
 
         private void addAdmin_btn_Click(object sender, EventArgs e)
         {
+            addAdmin_btn.Visible=false;
             AddAdmin_Form AddAdmin_Form = new AddAdmin_Form();
             getForm(AddAdmin_Form);
         }
+
+        private void DragPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragging = true;
+            dragCursorPoint = Cursor.Position;
+            dragFormPoint = this.Location;
+        }
+
+        private void DragPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
+                this.Location = Point.Add(dragFormPoint, new Size(dif));
+            }
+        }
+
+        private void DragPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
+        }
+
     }
 }

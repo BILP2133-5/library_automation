@@ -111,22 +111,6 @@ namespace kutuphane_otomasyonu_project
             }
         }
 
-        #region Close/Minimize
-        private void close_btn_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void minimize_btn_Click(object sender, EventArgs e)
-        {
-            Login_Register_Form loginRegisterForm = Application.OpenForms["Login_Register_Form"] as Login_Register_Form;
-            if (loginRegisterForm != null)
-            {
-                loginRegisterForm.WindowState = FormWindowState.Minimized;
-            }
-        }
-        #endregion
-
         #region EmailClickRegion
         void emailClicked()
         {

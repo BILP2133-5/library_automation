@@ -325,24 +325,29 @@ namespace kutuphane_otomasyonu_project
                     // Yanıtı JSON veri olarak okuyun
                     string bookData = await response.Content.ReadAsStringAsync();
                     var bookInfo = JsonConvert.DeserializeObject<BookData>(bookData);
-                    
-                    updateForm.bookName_txt.Text = bookInfo.bookName;
-                    updateForm.publicationYear_txt.Text = bookInfo.publicationYear.ToString();
-                    updateForm.publisher_txt.Text = bookInfo.publisher;
-                    updateForm.language_txt.Text = bookInfo.language;
-                    updateForm.author_txt.Text = bookInfo.author;
-                    updateForm.imgUrl_text.Text = bookInfo.imageUrl;
-                    updateForm.aboutBook_rchtxt.Text = bookInfo.aboutBook;
 
-                    Application.OpenForms["Admin_Form"].Hide();
+                    // UI iş parçacığına geri dön
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        updateForm.bookName_txt.Text = bookInfo.bookName;
+                        updateForm.publicationYear_txt.Text = bookInfo.publicationYear.ToString();
+                        updateForm.publisher_txt.Text = bookInfo.publisher;
+                        updateForm.language_txt.Text = bookInfo.language;
+                        updateForm.author_txt.Text = bookInfo.author;
+                        updateForm.imgUrl_text.Text = bookInfo.imageUrl;
+                        updateForm.aboutBook_rchtxt.Text = bookInfo.aboutBook;
 
-                    Admin_Form admin_Form = new Admin_Form();
-                    admin_Form.main_panel.Controls.Clear();
-                    updateForm.MdiParent = admin_Form;
-                    updateForm.FormBorderStyle = FormBorderStyle.None;
-                    admin_Form.main_panel.Controls.Add(updateForm);
-                    updateForm.Show();
-                    admin_Form.Show();
+                        Admin_Form admin_Form = Application.OpenForms["Admin_Form"] as Admin_Form;
+                        if (admin_Form != null)
+                        {
+                            admin_Form.addBook_btn.Visible = false;
+                            admin_Form.main_panel.Controls.Clear();
+                            updateForm.MdiParent = admin_Form;
+                            updateForm.FormBorderStyle = FormBorderStyle.None;
+                            admin_Form.main_panel.Controls.Add(updateForm);
+                            updateForm.Show();
+                        }
+                    }));
                 }
                 else
                 {
@@ -350,6 +355,7 @@ namespace kutuphane_otomasyonu_project
                 }
             }
         }
+
 
         private async void remove_btn_Click(object sender, EventArgs e)
         {

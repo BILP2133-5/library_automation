@@ -12,9 +12,16 @@ namespace kutuphane_otomasyonu_project
 {
     public partial class User_Form : Form
     {
+        private bool dragging = false;
+        private Point dragCursorPoint;
+        private Point dragFormPoint;
+        BookList_Form bookList_Form = new BookList_Form();
+
         public User_Form()
         {
             InitializeComponent();
+
+            
         }
 
         void imgResize20(Button button)
@@ -41,11 +48,17 @@ namespace kutuphane_otomasyonu_project
             {
                 imgResize25(button);
             }
+
+            bookList_Form = new BookList_Form();
+            getForm(bookList_Form);
+
+            panel1.MouseDown += new MouseEventHandler(DragPanel_MouseDown);
+            panel1.MouseMove += new MouseEventHandler(DragPanel_MouseMove);
+            panel1.MouseUp += new MouseEventHandler(DragPanel_MouseUp);
         }
 
         bool isSidebarExpanded = true;
         int paddingLeft = 0;
-        BookList_Form bookList_Form = new BookList_Form();
 
         private void menu_btn_Click(object sender, EventArgs e)
         {
@@ -136,6 +149,27 @@ namespace kutuphane_otomasyonu_project
         {
             User_Profile_Form user_Profile_Form = new User_Profile_Form();
             getForm(user_Profile_Form);
+        }
+
+        private void DragPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragging = true;
+            dragCursorPoint = Cursor.Position;
+            dragFormPoint = this.Location;
+        }
+
+        private void DragPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
+                this.Location = Point.Add(dragFormPoint, new Size(dif));
+            }
+        }
+
+        private void DragPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
         }
     }
 }

@@ -6,10 +6,12 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static kutuphane_otomasyonu_project.BookList_Form;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
 
 namespace kutuphane_otomasyonu_project
 {
@@ -23,6 +25,7 @@ namespace kutuphane_otomasyonu_project
         public class BookData
         {
             public string bookName { get; set; }
+            public string _id { get; set; }
             public string borrowedAt { get; set; }
         }
 
@@ -40,7 +43,7 @@ namespace kutuphane_otomasyonu_project
             {
                 userId = Login_Form.userId;
             }
-            else if(Register_Form.userId != null)
+            else if (Register_Form.userId != null)
             {
                 userId = Register_Form.userId;
             }
@@ -79,6 +82,7 @@ namespace kutuphane_otomasyonu_project
 
                     for (int i = 0; i < bookDataList.Count; i++)
                     {
+                        MessageBox.Show(bookDataList[i]._id);
                         FlowLayoutPanel cardPanel = new FlowLayoutPanel();
                         cardPanel.BorderStyle = BorderStyle.FixedSingle;
                         cardPanel.Size = new Size(main_panel.Width - 25, 65);
@@ -95,8 +99,16 @@ namespace kutuphane_otomasyonu_project
                         //    MessageBox.Show(bookDataList[i].borrowedAt);
                         //}
                         Panel leftPanel = new Panel();
+                        //leftPanel.Size = new Size(cardPanel.Width * 100 / 234, cardPanel.Height - 10);
+                        if (UserList_Form.fromAdminForm == true)
+                        {
+                            leftPanel.Size = new Size(cardPanel.Width / 3, cardPanel.Height - 10);
+                        }
+                        else
+                        {
+                            leftPanel.Size = new Size(cardPanel.Width * 100 / 234, cardPanel.Height - 10);
+                        }
                         leftPanel.BorderStyle = BorderStyle.None;
-                        leftPanel.Size = new Size(cardPanel.Width * 100 / 234, cardPanel.Height-10);
                         //leftPanel.Margin = new Padding(20);
                         leftPanel.Margin = new Padding(50, leftPanel.Margin.Top, leftPanel.Margin.Right, leftPanel.Margin.Bottom);
 
@@ -107,18 +119,20 @@ namespace kutuphane_otomasyonu_project
                         titleLabel.Width = leftPanel.Width;
                         titleLabel.Height = leftPanel.Height;
                         titleLabel.TextAlign = ContentAlignment.MiddleLeft;
-                        
+
+
+
 
                         FlowLayoutPanel rigthPanel = new FlowLayoutPanel();
                         rigthPanel.BorderStyle = BorderStyle.None;
-                        rigthPanel.Size = new Size(cardPanel.Width*100/234, cardPanel.Height-10);
-                        rigthPanel.FlowDirection= FlowDirection.TopDown;
+                        rigthPanel.Size = new Size(cardPanel.Width * 100 / 234, cardPanel.Height - 10);
+                        rigthPanel.FlowDirection = FlowDirection.TopDown;
                         leftPanel.Margin = new Padding(leftPanel.Margin.Left, leftPanel.Margin.Top, leftPanel.Margin.Right, 50);
                         //rigthPanel.Margin = new Padding(20);
 
                         DateTime date = DateTime.Parse(bookDataList[i].borrowedAt);
                         Label borrowedDateLabel = new Label();
-                        borrowedDateLabel.Text = "Barrowed At: " + date.ToString("dd/mm/yyyy");
+                        borrowedDateLabel.Text = "Barrowed At: " + date.ToString("dd/MM/yyyy");
                         changeStyle(borrowedDateLabel);
                         //titleLabel.Location = new Point(0, 120);
                         borrowedDateLabel.Width = rigthPanel.Width;
@@ -135,6 +149,29 @@ namespace kutuphane_otomasyonu_project
                         remainigDateLabel.Width = rigthPanel.Width;
                         //remainigDateLabel.Height = cardPanel.Height/2;
                         remainigDateLabel.TextAlign = ContentAlignment.TopRight;
+
+                        rigthPanel.Controls.Add(remainigDateLabel);
+                        leftPanel.Controls.Add(titleLabel);
+                        rigthPanel.Controls.Add(borrowedDateLabel);
+                        cardPanel.Controls.Add(leftPanel);
+                        cardPanel.Controls.Add(rigthPanel);
+
+                        if (UserList_Form.fromAdminForm == true)
+                        {
+                            Button receive_btn = new Button();
+                            receive_btn.Text = "receive";
+                            receive_btn.Font = new Font("Century Gothic", 11, FontStyle.Regular);
+                            receive_btn.FlatStyle = FlatStyle.Flat;
+                            receive_btn.FlatAppearance.BorderSize = 0;
+                            receive_btn.BackColor = Color.FromArgb(0, 173, 181);
+                            receive_btn.ForeColor = Color.FromArgb(238, 238, 238);
+                            receive_btn.AutoSize = true;
+                            receive_btn.Margin = new Padding(30, 15, receive_btn.Margin.Right, receive_btn.Margin.Bottom);
+                            receive_btn.Tag = bookDataList[i]._id;
+                            receive_btn.Click += new EventHandler(receive_btn_Click);
+                            //acceptReturn.Controls.Add(titleLabel);
+                            cardPanel.Controls.Add(receive_btn);
+                        }
 
                         //Label authorLabel = new Label();
                         //authorLabel.Location = new Point(0, 145);
@@ -164,11 +201,7 @@ namespace kutuphane_otomasyonu_project
 
 
 
-                        rigthPanel.Controls.Add(remainigDateLabel);
-                        leftPanel.Controls.Add(titleLabel);
-                        rigthPanel.Controls.Add(borrowedDateLabel);
-                        cardPanel.Controls.Add(leftPanel);
-                        cardPanel.Controls.Add(rigthPanel);
+
                         main_panel.Controls.Add(cardPanel);
                     }
 
@@ -177,6 +210,44 @@ namespace kutuphane_otomasyonu_project
                 catch (HttpRequestException ex)
                 {
                     //MessageBox.Show($"Error: {ex.Message}");
+                }
+            }
+        }
+
+        private async void receive_btn_Click(object sender, EventArgs e)
+        {
+            Button clickedButton = (Button)sender;
+            string bookId = (string)clickedButton.Tag;
+
+            string protectedUrl = "http://localhost:3000/auth/protected";
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+                //MessageBox.Show(bookId);
+                //MessageBox.Show(Login_Form.userToken);
+                var authUserResponse = await client.GetAsync(protectedUrl);
+
+                if (authUserResponse.IsSuccessStatusCode)
+                {
+                    string postBookUrl = "http://localhost:3000/books/unloan/" + bookId;
+                    //MessageBox.Show("http://localhost:3000/books/unloan/" + bookId);
+                    
+                    string postData = $"{{ \"userId\": \"{Login_Form.userId}\"}}";
+
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                        StringContent content = new StringContent(postData, Encoding.UTF8, "application/json");
+                        HttpResponseMessage response = await httpClient.PostAsync(postBookUrl, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            MessageBox.Show(response.ToString());
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.ToString());
+                        }
+                    }
                 }
             }
         }

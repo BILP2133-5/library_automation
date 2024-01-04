@@ -36,7 +36,6 @@
             this.nameLogo_pic = new System.Windows.Forms.PictureBox();
             this.password_lbl = new System.Windows.Forms.Label();
             this.email_lbl = new System.Windows.Forms.Label();
-            this.minimize_btn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.register_btn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -48,7 +47,6 @@
             this.email_panel = new System.Windows.Forms.Panel();
             this.email_text = new System.Windows.Forms.TextBox();
             this.emailLogo_pic = new System.Windows.Forms.PictureBox();
-            this.close_btn = new System.Windows.Forms.Button();
             this.loginRight_panel.SuspendLayout();
             this.name_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nameLogo_pic)).BeginInit();
@@ -67,13 +65,11 @@
             this.loginRight_panel.Controls.Add(this.name_panel);
             this.loginRight_panel.Controls.Add(this.password_lbl);
             this.loginRight_panel.Controls.Add(this.email_lbl);
-            this.loginRight_panel.Controls.Add(this.minimize_btn);
             this.loginRight_panel.Controls.Add(this.label5);
             this.loginRight_panel.Controls.Add(this.register_btn);
             this.loginRight_panel.Controls.Add(this.label4);
             this.loginRight_panel.Controls.Add(this.password_panel);
             this.loginRight_panel.Controls.Add(this.email_panel);
-            this.loginRight_panel.Controls.Add(this.close_btn);
             this.loginRight_panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.loginRight_panel.Location = new System.Drawing.Point(0, 0);
             this.loginRight_panel.Margin = new System.Windows.Forms.Padding(2);
@@ -86,7 +82,7 @@
             this.name_lbl.AutoSize = true;
             this.name_lbl.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.name_lbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.name_lbl.Location = new System.Drawing.Point(8, 187);
+            this.name_lbl.Location = new System.Drawing.Point(6, 144);
             this.name_lbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.name_lbl.Name = "name_lbl";
             this.name_lbl.Size = new System.Drawing.Size(76, 23);
@@ -99,7 +95,7 @@
             this.name_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(62)))), ((int)(((byte)(70)))));
             this.name_panel.Controls.Add(this.name_text);
             this.name_panel.Controls.Add(this.nameLogo_pic);
-            this.name_panel.Location = new System.Drawing.Point(2, 225);
+            this.name_panel.Location = new System.Drawing.Point(0, 182);
             this.name_panel.Margin = new System.Windows.Forms.Padding(2);
             this.name_panel.Name = "name_panel";
             this.name_panel.Size = new System.Drawing.Size(447, 37);
@@ -135,7 +131,7 @@
             this.password_lbl.AutoSize = true;
             this.password_lbl.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.password_lbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.password_lbl.Location = new System.Drawing.Point(6, 383);
+            this.password_lbl.Location = new System.Drawing.Point(4, 340);
             this.password_lbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.password_lbl.Name = "password_lbl";
             this.password_lbl.Size = new System.Drawing.Size(108, 23);
@@ -148,7 +144,7 @@
             this.email_lbl.AutoSize = true;
             this.email_lbl.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.email_lbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.email_lbl.Location = new System.Drawing.Point(8, 288);
+            this.email_lbl.Location = new System.Drawing.Point(6, 245);
             this.email_lbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.email_lbl.Name = "email_lbl";
             this.email_lbl.Size = new System.Drawing.Size(67, 23);
@@ -156,32 +152,12 @@
             this.email_lbl.Text = "Email:";
             this.email_lbl.Click += new System.EventHandler(this.email_lbl_Click);
             // 
-            // minimize_btn
-            // 
-            this.minimize_btn.AutoSize = true;
-            this.minimize_btn.BackColor = System.Drawing.Color.Transparent;
-            this.minimize_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.minimize_btn.FlatAppearance.BorderSize = 0;
-            this.minimize_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.minimize_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.minimize_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.minimize_btn.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.minimize_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(181)))));
-            this.minimize_btn.Location = new System.Drawing.Point(385, 0);
-            this.minimize_btn.Margin = new System.Windows.Forms.Padding(0);
-            this.minimize_btn.Name = "minimize_btn";
-            this.minimize_btn.Size = new System.Drawing.Size(31, 29);
-            this.minimize_btn.TabIndex = 10;
-            this.minimize_btn.Text = "─";
-            this.minimize_btn.UseVisualStyleBackColor = false;
-            this.minimize_btn.Click += new System.EventHandler(this.minimize_btn_Click);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.label5.Location = new System.Drawing.Point(60, 86);
+            this.label5.Location = new System.Drawing.Point(58, 43);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(405, 34);
@@ -197,7 +173,7 @@
             this.register_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.register_btn.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.register_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.register_btn.Location = new System.Drawing.Point(43, 485);
+            this.register_btn.Location = new System.Drawing.Point(41, 442);
             this.register_btn.Margin = new System.Windows.Forms.Padding(2);
             this.register_btn.Name = "register_btn";
             this.register_btn.Size = new System.Drawing.Size(369, 33);
@@ -211,7 +187,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.label4.Location = new System.Drawing.Point(176, 130);
+            this.label4.Location = new System.Drawing.Point(174, 87);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(123, 34);
@@ -225,7 +201,7 @@
             this.password_panel.Controls.Add(this.show_pic);
             this.password_panel.Controls.Add(this.password_text);
             this.password_panel.Controls.Add(this.passwordLogo_pic);
-            this.password_panel.Location = new System.Drawing.Point(0, 419);
+            this.password_panel.Location = new System.Drawing.Point(-2, 376);
             this.password_panel.Margin = new System.Windows.Forms.Padding(2);
             this.password_panel.Name = "password_panel";
             this.password_panel.Size = new System.Drawing.Size(447, 37);
@@ -288,7 +264,7 @@
             this.email_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(62)))), ((int)(((byte)(70)))));
             this.email_panel.Controls.Add(this.email_text);
             this.email_panel.Controls.Add(this.emailLogo_pic);
-            this.email_panel.Location = new System.Drawing.Point(2, 326);
+            this.email_panel.Location = new System.Drawing.Point(0, 283);
             this.email_panel.Margin = new System.Windows.Forms.Padding(2);
             this.email_panel.Name = "email_panel";
             this.email_panel.Size = new System.Drawing.Size(447, 37);
@@ -318,26 +294,6 @@
             this.emailLogo_pic.TabIndex = 0;
             this.emailLogo_pic.TabStop = false;
             this.emailLogo_pic.Click += new System.EventHandler(this.emailLogo_pic_Click);
-            // 
-            // close_btn
-            // 
-            this.close_btn.AutoSize = true;
-            this.close_btn.BackColor = System.Drawing.Color.Transparent;
-            this.close_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.close_btn.FlatAppearance.BorderSize = 0;
-            this.close_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.close_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.close_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.close_btn.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.close_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(181)))));
-            this.close_btn.Location = new System.Drawing.Point(416, 0);
-            this.close_btn.Margin = new System.Windows.Forms.Padding(0);
-            this.close_btn.Name = "close_btn";
-            this.close_btn.Size = new System.Drawing.Size(31, 29);
-            this.close_btn.TabIndex = 2;
-            this.close_btn.Text = "X";
-            this.close_btn.UseVisualStyleBackColor = false;
-            this.close_btn.Click += new System.EventHandler(this.close_btn_Click);
             // 
             // Register_Form
             // 
@@ -374,9 +330,7 @@
         private System.Windows.Forms.PictureBox show_pic;
         private System.Windows.Forms.TextBox password_text;
         private System.Windows.Forms.PictureBox passwordLogo_pic;
-        private System.Windows.Forms.Button close_btn;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button minimize_btn;
         private System.Windows.Forms.Label password_lbl;
         private System.Windows.Forms.Label name_lbl;
         private System.Windows.Forms.Panel name_panel;
