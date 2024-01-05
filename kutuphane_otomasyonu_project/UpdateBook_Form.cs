@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,28 +43,39 @@ namespace kutuphane_otomasyonu_project
             }
         }
 
+        // Using Newtonsoft.Json;
         private async void update_btn_Click(object sender, EventArgs e)
         {
             string updateBookUrl = "http://localhost:3000/books/update";
-            string bookData = $"{{ \"bookName\": \"{bookName_txt.Text}\", \"publicationYear\": \"{Convert.ToInt16(publicationYear_txt.Text)}\", \"publisher\": \"{publisher_txt.Text}\", \"language\": \"{language_txt.Text}\", \"author\": \"{author_txt.Text}\", \"aboutBook\": \"{aboutBook_rchtxt.Text}\", \"imageUrl\": \"{imgUrl_text.Text}\" }}";
+
+            var bookData = new
+            {
+                bookName = bookName_txt.Text,
+                publicationYear = Convert.ToInt16(publicationYear_txt.Text),
+                publisher = publisher_txt.Text,
+                language = language_txt.Text,
+                author = author_txt.Text,
+                aboutBook = aboutBook_rchtxt.Text,
+                imageUrl = imgUrl_text.Text
+            };
+
+            string json = JsonConvert.SerializeObject(bookData);
 
             using (HttpClient httpClient = new HttpClient())
             {
-                var content = new StringContent(bookData, Encoding.UTF8, "application/json");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpClient.PutAsync($"{updateBookUrl}/{bookId}", content);
-
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // Başarılı yanıt
                     MessageBox.Show("işlem Başarılı");
                 }
                 else
                 {
-                    // Hata durumu
                     MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
                 }
             }
         }
+
     }
 }

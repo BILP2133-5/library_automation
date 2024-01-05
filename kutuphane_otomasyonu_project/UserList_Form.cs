@@ -636,7 +636,7 @@ namespace kutuphane_otomasyonu_project
 
                 if (admin_Form != null && login_Form != null)
                 {
-                    Login_Form.userId = userId;
+                    //Login_Form.tempUserId = userId;
                     admin_Form.addAdmin_btn.Visible = false;
                     admin_Form.main_panel.Controls.Clear();
                     user_Profile_Form.MdiParent = admin_Form;

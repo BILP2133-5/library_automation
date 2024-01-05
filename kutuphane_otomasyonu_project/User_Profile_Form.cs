@@ -34,32 +34,19 @@ namespace kutuphane_otomasyonu_project
             public string name { get; set; }
         }
 
-        string userId = "";
+        //string userId = "";
         private async void User_Profile_Form_Load(object sender, EventArgs e)
         {
-            //MessageBox.Show(Login_Form.userId);
-            //MessageBox.Show(Register_Form.userId);
-            if (Login_Form.userId != null)
-            {
-                userId = Login_Form.userId;
-            }
-            else if (Register_Form.userId != null)
-            {
-                userId = Register_Form.userId;
-            }
 
-            //MessageBox.Show(userId);
-            string userUrl = "http://localhost:3000/users/" + userId;
+            string userUrl = "http://localhost:3000/users/" + Login_Form.tempUserId;
 
             using (HttpClient client = new HttpClient())
             {
                 var response = await client.GetAsync(userUrl);
                 response.EnsureSuccessStatusCode();
                 string json = await response.Content.ReadAsStringAsync();
-                //MessageBox.Show(json);
 
                 User user = JsonConvert.DeserializeObject<User>(json);
-                //MessageBox.Show(Login_Form.userId);
                 userName_lbl.Text = user.name;
             }
 
@@ -68,7 +55,7 @@ namespace kutuphane_otomasyonu_project
             main_panel.AutoScroll = true;
             main_panel.BorderStyle = BorderStyle.None;
 
-            string apiUrl = "http://localhost:3000/users/borrowedBook/" + Login_Form.userId;
+            string apiUrl = "http://localhost:3000/users/borrowedBook/" + Login_Form.tempUserId;
 
             using (HttpClient client = new HttpClient())
             {
@@ -213,42 +200,39 @@ namespace kutuphane_otomasyonu_project
                 }
             }
         }
-
+        private static readonly HttpClient client = new HttpClient();
         private async void receive_btn_Click(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
             string bookId = (string)clickedButton.Tag;
 
             string protectedUrl = "http://localhost:3000/auth/protected";
-            using (HttpClient client = new HttpClient())
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
+
+            var authUserResponse = await client.GetAsync(protectedUrl);
+
+            if (authUserResponse.IsSuccessStatusCode)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login_Form.userToken);
-                //MessageBox.Show(bookId);
-                //MessageBox.Show(Login_Form.userToken);
-                var authUserResponse = await client.GetAsync(protectedUrl);
+                string postBookUrl = $"http://localhost:3000/books/unloan/{bookId}";
+                string postData = $"{{ \"userId\": \"{Login_Form.tempUserId}\"}}";
 
-                if (authUserResponse.IsSuccessStatusCode)
+                StringContent content = new StringContent(postData, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(postBookUrl, content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    string postBookUrl = "http://localhost:3000/books/unloan/" + bookId;
-                    //MessageBox.Show("http://localhost:3000/books/unloan/" + bookId);
-                    
-                    string postData = $"{{ \"userId\": \"{Login_Form.userId}\"}}";
-
-                    using (HttpClient httpClient = new HttpClient())
-                    {
-                        StringContent content = new StringContent(postData, Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = await httpClient.PostAsync(postBookUrl, content);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            MessageBox.Show(response.ToString());
-                        }
-                        else
-                        {
-                            MessageBox.Show(response.ToString());
-                        }
-                    }
+                    MessageBox.Show("Başarılı.");
                 }
+                else
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {response.StatusCode}\n{responseContent}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Authorization failed.");
             }
         }
         void changeStyle(Control control)

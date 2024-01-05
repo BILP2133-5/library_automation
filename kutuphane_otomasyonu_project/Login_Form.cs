@@ -121,7 +121,7 @@ namespace kutuphane_otomasyonu_project
             register_Form.Show();
         }
 
-        public static string userId, userToken;
+        public static string userId, userToken, tempUserId="";
         private async void login_btn_Click(object sender, EventArgs e)
         {
             string loginUrl = "http://localhost:3000/auth/login";
