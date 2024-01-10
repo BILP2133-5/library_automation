@@ -114,6 +114,9 @@
     <Compile Include="BookList_Form.Designer.cs">
       <DependentUpon>BookList_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\AuthedUser.cs" />
+    <Compile Include="Entities\SelectedUser.cs" />
+    <Compile Include="Entities\UserData.cs" />
     <Compile Include="Login_Form.cs">
       <SubType>Form</SubType>
     </Compile>

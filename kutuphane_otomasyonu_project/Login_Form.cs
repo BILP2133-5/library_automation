@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using kutuphane_otomasyonu_project.Entities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -122,6 +124,7 @@ namespace kutuphane_otomasyonu_project
         }
 
         public static string userId, userToken;
+        public static AuthedUser AuthedUser { get; private set; }
         private async void login_btn_Click(object sender, EventArgs e)
         {
             string loginUrl = "http://localhost:3000/auth/login";
@@ -140,6 +143,8 @@ namespace kutuphane_otomasyonu_project
                     //MessageBox.Show(token);
                     //userToken = token;
 
+                   
+
                     string protectedUrl = "http://localhost:3000/auth/protected";
                     using(HttpClient client = new HttpClient())
                     {
@@ -151,10 +156,18 @@ namespace kutuphane_otomasyonu_project
                         //HttpResponseMessage response1 = await httpClient.PostAsync(protectedUrl, content);
                         if(authUserResponse.IsSuccessStatusCode)
                         {
+                            // baristaner section
                             var authUserContent = await authUserResponse.Content.ReadAsStringAsync();
                             var authUserJsonData = JsonConvert.DeserializeObject<dynamic>(authUserContent);
-                            string role = authUserJsonData.user.role;
-                            userId = authUserJsonData.user._id;
+
+                            AuthedUser = new AuthedUser
+                            {
+                                UserId = authUserJsonData.user._id,
+                                UserToken = userToken, // Use userToken instead of AuthedUser.UserToken
+                                UserRole = authUserJsonData.user.role
+                            };
+
+                            MessageBox.Show(Login_Form.AuthedUser.UserId);
 
                             //MessageBox.Show(role);
 
@@ -170,13 +183,14 @@ namespace kutuphane_otomasyonu_project
                                 Admin_Form admin_Form = new Admin_Form();
                                 admin_Form.Show();
                                 //User_Form user_Form = new User_Form();
-                                //user_Form.Show();
+                              
                             }
 
                             else
                             {
                                 User_Form user_Form = new User_Form();
                                 user_Form.Show();
+                                
                             }
                         }
                     }
