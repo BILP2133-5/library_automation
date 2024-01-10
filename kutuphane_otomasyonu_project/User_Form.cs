@@ -1,4 +1,5 @@
-﻿using System;
+﻿using kutuphane_otomasyonu_project.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static kutuphane_otomasyonu_project.User_Profile_Form;
 
 namespace kutuphane_otomasyonu_project
 {
@@ -147,9 +149,20 @@ namespace kutuphane_otomasyonu_project
 
         private void profile_btn_Click(object sender, EventArgs e)
         {
-            User_Profile_Form user_Profile_Form = new User_Profile_Form();
+            string authedUserId = " ";
+            if (Login_Form.AuthedUser != null)
+            {
+                authedUserId = Login_Form.AuthedUser.UserId;
+            } else if (Register_Form.AuthedUser != null)
+            {
+                authedUserId = Register_Form.AuthedUser.UserId;
+            }
+
+
+            User_Profile_Form user_Profile_Form = new User_Profile_Form(authedUserId);
             getForm(user_Profile_Form);
         }
+
 
         private void DragPanel_MouseDown(object sender, MouseEventArgs e)
         {

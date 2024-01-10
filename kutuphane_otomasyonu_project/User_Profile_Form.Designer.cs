@@ -38,7 +38,7 @@
             // 
             this.main_panel.Location = new System.Drawing.Point(81, 128);
             this.main_panel.Name = "main_panel";
-            this.main_panel.Size = new System.Drawing.Size(1131, 632);
+            this.main_panel.Size = new System.Drawing.Size(1060, 523);
             this.main_panel.TabIndex = 1;
             // 
             // label1
@@ -78,7 +78,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(40)))), ((int)(((byte)(49)))));
-            this.ClientSize = new System.Drawing.Size(1224, 792);
+            this.ClientSize = new System.Drawing.Size(1168, 669);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.userName_lbl);
             this.Controls.Add(this.label1);

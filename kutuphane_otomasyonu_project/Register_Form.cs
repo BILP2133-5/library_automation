@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using kutuphane_otomasyonu_project.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,7 @@ namespace kutuphane_otomasyonu_project
         }
 
         public static string userId, userToken;
+        public static AuthedUser AuthedUser { get; private set; }
         private async void register_btn_Click(object sender, EventArgs e)
         {
             if (!IsValidEmail(email_text.Text))
@@ -65,18 +67,23 @@ namespace kutuphane_otomasyonu_project
                             var authUserResponse = await client.GetAsync(protectedUrl);
 
 
-                            //StringContent content1 = new StringContent(userToken, Encoding.UTF8, "application/json");
-                            //HttpResponseMessage response1 = await httpClient.PostAsync(protectedUrl, content);
                             if (authUserResponse.IsSuccessStatusCode)
                             {
+                                // baristaner section
                                 var authUserContent = await authUserResponse.Content.ReadAsStringAsync();
                                 var authUserJsonData = JsonConvert.DeserializeObject<dynamic>(authUserContent);
-                                string role = authUserJsonData.user.role;
-                                userId = authUserJsonData.user._id;
-                                //MessageBox.Show(authUserContent);
-                                //MessageBox.Show(role);
-                                //MessageBox.Show(userId);
 
+                                AuthedUser = new AuthedUser
+                                {
+                                    UserId = authUserJsonData.user._id,
+                                    UserToken = userToken, // Use userToken instead of AuthedUser.UserToken
+                                    UserRole = authUserJsonData.user.role
+                                };
+
+                                MessageBox.Show(Register_Form.AuthedUser.UserId);
+
+                                User_Form user_Form = new User_Form();
+                                user_Form.Show();
 
                                 //MessageBox.Show(role);
 
@@ -84,20 +91,7 @@ namespace kutuphane_otomasyonu_project
                                 //MessageBox.Show(data["role"]);
 
 
-                                if (role == "admin")
-                                {
-                                    //userId = userResponse.token;
 
-                                    // Başarılı yanıt
-                                    Admin_Form admin_Form = new Admin_Form();
-                                    admin_Form.Show();
-                                }
-
-                                else
-                                {
-                                    User_Form user_Form = new User_Form();
-                                    user_Form.Show();
-                                }
                             }
                         }
                         Application.OpenForms["Login_Register_Form"].Hide();

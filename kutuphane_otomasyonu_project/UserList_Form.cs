@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using kutuphane_otomasyonu_project.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static kutuphane_otomasyonu_project.BookList_Form;
+using static kutuphane_otomasyonu_project.User_Profile_Form;
 
 namespace kutuphane_otomasyonu_project
 {
@@ -22,13 +24,9 @@ namespace kutuphane_otomasyonu_project
             InitializeComponent();
         }
 
-        public class UserData
-        {
-            public string _id { get; set; }
-            public string name { get; set; }
-            public string email { get; set; }
-            public string role { get; set; }
-        }
+        
+
+        private List<UserData> userList = new List<UserData>();
 
         void changeStyle(Control control)
         {
@@ -207,105 +205,7 @@ namespace kutuphane_otomasyonu_project
 
                                     }
                                 }
-                                //if (userDataList[i].role != "superadmin")
-                                //{
-                                //    FlowLayoutPanel rowFlowPanel = new FlowLayoutPanel();
-                                //    rowFlowPanel.BorderStyle = BorderStyle.FixedSingle;
-                                //    rowFlowPanel.Size = new Size(main_panel.Width - 10, main_panel.Height / 15);
-                                //    rowFlowPanel.Location = new Point(0, 0);
-                                //    rowFlowPanel.FlowDirection = FlowDirection.LeftToRight;
-
-                                //    Label userNameLabel = new Label();
-                                //    userNameLabel.Text = userDataList[i].name;
-                                //    changeStyle(userNameLabel);
-                                //    userNameLabel.Height = rowFlowPanel.Height;
-                                //    userNameLabel.Width = rowFlowPanel.Width * 4 / 14;
-                                //    userNameLabel.TextAlign = ContentAlignment.MiddleLeft;
-
-                                //    Label userEmailLabel = new Label();
-                                //    userEmailLabel.Height = rowFlowPanel.Height;
-                                //    userEmailLabel.Width = rowFlowPanel.Width * 4 / 14;
-                                //    userEmailLabel.TextAlign = ContentAlignment.MiddleLeft;
-                                //    userEmailLabel.Text = userDataList[i].email;
-                                //    changeStyle(userEmailLabel);
-
-                                //    Label userRoleLabel = new Label();
-                                //    userRoleLabel.Height = rowFlowPanel.Height;
-                                //    userRoleLabel.Width = rowFlowPanel.Width * 3 / 14;
-                                //    userRoleLabel.TextAlign = ContentAlignment.MiddleLeft;
-                                //    userRoleLabel.Text = "role: " + userDataList[i].role;
-                                //    changeStyle(userRoleLabel);
-
-                                //    rowFlowPanel.Controls.Add(userNameLabel);
-                                //    rowFlowPanel.Controls.Add(userEmailLabel);
-                                //    rowFlowPanel.Controls.Add(userRoleLabel);
-
-                                //    if (authUserJsonData.user.role == "superadmin")
-                                //    {
-                                //        FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
-                                //        flowLayoutPanel.BorderStyle = BorderStyle.None;
-                                //        flowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
-
-                                //        Button removeButton = new Button();
-                                //        removeButton.Text = "remove";
-                                //        removeButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                                //        removeButton.FlatStyle = FlatStyle.Flat;
-                                //        removeButton.FlatAppearance.BorderSize = 0;
-                                //        removeButton.BackColor = Color.FromArgb(0, 173, 181);
-                                //        removeButton.ForeColor = Color.FromArgb(238, 238, 238);
-                                //        removeButton.AutoSize = false;
-                                //        removeButton.Size = new Size(76, 31);
-                                //        removeButton.TextAlign = ContentAlignment.MiddleCenter;
-                                //        removeButton.Tag = userDataList[i]._id;
-                                //        removeButton.Click += new EventHandler(remove_btn_Click);
-                                //        if (userDataList[i].role != "admin")
-                                //        {
-                                //            Button detailButton = new Button();
-                                //            detailButton.Text = "detail";
-                                //            detailButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                                //            detailButton.FlatStyle = FlatStyle.Flat;
-                                //            detailButton.FlatAppearance.BorderSize = 0;
-                                //            detailButton.BackColor = Color.FromArgb(0, 173, 181);
-                                //            detailButton.ForeColor = Color.FromArgb(238, 238, 238);
-                                //            detailButton.AutoSize = false;
-                                //            detailButton.Size = new Size(76, 31);
-                                //            detailButton.TextAlign = ContentAlignment.MiddleCenter;
-                                //            detailButton.Tag = userDataList[i]._id;
-                                //            detailButton.Click += new EventHandler(remove_btn_Click);
-                                //            flowLayoutPanel.Controls.Add(detailButton);
-                                //            rowFlowPanel.Controls.Add(detailButton);
-                                //        }
-                                //        flowLayoutPanel.Controls.Add(removeButton);
-                                //        rowFlowPanel.Controls.Add(removeButton);
-                                //        rowFlowPanel.Controls.Add(flowLayoutPanel);
-                                //    }
-
-                                //    else if (authUserJsonData.user.role == "admin")
-                                //    {
-                                //        FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
-                                //        flowLayoutPanel.BorderStyle = BorderStyle.None;
-                                //        flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
-
-                                //        Button detailButton = new Button();
-                                //        detailButton.Text = "detail";
-                                //        detailButton.Font = new Font("Century Gothic", 11, FontStyle.Regular);
-                                //        detailButton.FlatStyle = FlatStyle.Flat;
-                                //        detailButton.FlatAppearance.BorderSize = 0;
-                                //        detailButton.BackColor = Color.FromArgb(0, 173, 181);
-                                //        detailButton.ForeColor = Color.FromArgb(238, 238, 238);
-                                //        detailButton.AutoSize = false;
-                                //        detailButton.Size = new Size(76, 31);
-                                //        detailButton.TextAlign = ContentAlignment.MiddleCenter;
-                                //        detailButton.Tag = userDataList[i]._id;
-                                //        detailButton.Click += new EventHandler(remove_btn_Click);
-
-                                //        flowLayoutPanel.Controls.Add(detailButton);
-                                //        rowFlowPanel.Controls.Add(detailButton);
-                                //        rowFlowPanel.Controls.Add(flowLayoutPanel);
-
-                                //    }
-                                //    main_panel.Controls.Add(rowFlowPanel);
-                                //}
+                                
                             }
 
                             this.Controls.Add(main_panel);
@@ -325,44 +225,7 @@ namespace kutuphane_otomasyonu_project
 
 
         }
-        //Button updateButton = null;
-        //private async void userRadioButton_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if(isLoaded)
-        //    {
-        //        DialogResult result = MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-        //        if(result == DialogResult.Yes)
-        //        {
-        //            RadioButton userRadioButton = (RadioButton)sender;
-
-        //            if (userRadioButton.Checked)
-        //            {
-        //                string updateUserUrl = "http://localhost:3000/user/updaterole";
-        //                string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{userRadioButton.Tag}\", \"role\": \"user\" }}";
-
-        //                using (HttpClient httpClient = new HttpClient())
-        //                {
-        //                    var content = new StringContent(userData, Encoding.UTF8, "application/json");
-        //                    HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
-
-
-        //                    if (response.IsSuccessStatusCode)
-        //                    {
-        //                        // Başarılı yanıt
-        //                        MessageBox.Show("işlem Başarılı");
-        //                    }
-        //                    else
-        //                    {
-        //                        // Hata durumu
-        //                        MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
-        //                    }
-        //                }
-
-        //            }
-        //        }
-
-        //    }
-        //}
+        
 
         private async void adminRadioButton_Click(object sender, EventArgs e)
         {
@@ -420,32 +283,7 @@ namespace kutuphane_otomasyonu_project
                             }
                         }
                     }
-                    //if (adminRadioButton.Checked)
-                    //{
-
-
-                    //else
-                    //{
-                    //    string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{adminRadioButton.Tag}\", \"role\": \"user\" }}";
-
-                    //    using (HttpClient httpClient = new HttpClient())
-                    //    {
-                    //        var content = new StringContent(userData, Encoding.UTF8, "application/json");
-                    //        HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
-
-
-                    //        if (response.IsSuccessStatusCode)
-                    //        {
-                    //            // Başarılı yanıt
-                    //            MessageBox.Show("işlem Başarılı");
-                    //        }
-                    //        else
-                    //        {
-                    //            // Hata durumu
-                    //            MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
-                    //        }
-                    //    }
-                    //}
+                    
                 }
                 else
                 {
@@ -510,32 +348,7 @@ namespace kutuphane_otomasyonu_project
                             }
                         }
                     }
-                    //if (adminRadioButton.Checked)
-                    //{
-
-
-                    //else
-                    //{
-                    //    string userData = $"{{ \"adminUserId\": \"{Login_Form.userId}\", \"userIdToPromote\": \"{adminRadioButton.Tag}\", \"role\": \"user\" }}";
-
-                    //    using (HttpClient httpClient = new HttpClient())
-                    //    {
-                    //        var content = new StringContent(userData, Encoding.UTF8, "application/json");
-                    //        HttpResponseMessage response = await httpClient.PutAsync(updateUserUrl, content);
-
-
-                    //        if (response.IsSuccessStatusCode)
-                    //        {
-                    //            // Başarılı yanıt
-                    //            MessageBox.Show("işlem Başarılı");
-                    //        }
-                    //        else
-                    //        {
-                    //            // Hata durumu
-                    //            MessageBox.Show("API yanıtı başarısız: " + response.StatusCode);
-                    //        }
-                    //    }
-                    //}
+                    
                 }
                 else
                 {
@@ -548,51 +361,7 @@ namespace kutuphane_otomasyonu_project
 
         public string userId;
 
-        private async void update_btn_Click(object sender, EventArgs e)
-        {
-            //Button clickedButton = sender as Button;
-            //userId = clickedButton.Tag as string;
-            ////MessageBox.Show(bookId);
-            //UpdateBook_Form updateForm = new UpdateBook_Form();
-            //updateForm.userId = userId;
-
-            //string apiUrl = "http://localhost:3000/books";
-
-            //using (HttpClient httpClient = new HttpClient())
-            //{
-            //    HttpResponseMessage response = await httpClient.GetAsync($"{apiUrl}/{userId}");
-
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        // Yanıtı JSON veri olarak okuyun
-            //        string bookData = await response.Content.ReadAsStringAsync();
-            //        var bookInfo = JsonConvert.DeserializeObject<BookData>(bookData);
-
-            //        updateForm.bookName_txt.Text = bookInfo.bookName;
-            //        updateForm.publicationYear_txt.Text = bookInfo.publicationYear.ToString();
-            //        updateForm.publisher_txt.Text = bookInfo.publisher;
-            //        updateForm.language_txt.Text = bookInfo.language;
-            //        updateForm.author_txt.Text = bookInfo.author;
-            //        updateForm.imgUrl_text.Text = bookInfo.imageUrl;
-            //        updateForm.aboutBook_rchtxt.Text = bookInfo.aboutBook;
-
-            //        Application.OpenForms["Admin_Form"].Hide();
-
-            //        Admin_Form admin_Form = new Admin_Form();
-            //        admin_Form.main_panel.Controls.Clear();
-            //        updateForm.MdiParent = admin_Form;
-            //        updateForm.FormBorderStyle = FormBorderStyle.None;
-            //        admin_Form.main_panel.Controls.Add(updateForm);
-            //        updateForm.Show();
-            //        admin_Form.Show();
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("API'den veri alınamadı. HTTP durumu: " + response.StatusCode);
-            //    }
-            //}
-        }
-
+        
         private async void remove_btn_Click(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -623,37 +392,82 @@ namespace kutuphane_otomasyonu_project
             }
         }
         public static bool fromAdminForm = false;
-        private async void detail_btn_Click(object sender, EventArgs e)
+        private void detail_btn_Click(object sender, EventArgs e)
         {
-            fromAdminForm = true;
-            Button clickedButton = (Button)sender;
-            string userId = (string)clickedButton.Tag;
-            User_Profile_Form user_Profile_Form = new User_Profile_Form();
-            this.Invoke(new MethodInvoker(() =>
+            Button clickedButton = sender as Button;
+            if (clickedButton != null)
             {
-                Admin_Form admin_Form = Application.OpenForms["Admin_Form"] as Admin_Form;
-                Login_Form login_Form = Application.OpenForms["Login_Form"] as Login_Form;
-
-                if (admin_Form != null && login_Form != null)
-                {
-                    Login_Form.userId = userId;
-                    admin_Form.addAdmin_btn.Visible = false;
-                    admin_Form.main_panel.Controls.Clear();
-                    user_Profile_Form.MdiParent = admin_Form;
-                    user_Profile_Form.FormBorderStyle = FormBorderStyle.None;
-                    admin_Form.main_panel.Controls.Add(user_Profile_Form);
-                    user_Profile_Form.Show();
-                }
-            }));
+                string userId = clickedButton.Tag.ToString();
+                // Call a method to display borrowed books for the selected user
+                ShowBorrowedBooks(userId);
+            }
         }
 
-        //public void getForm(Form form)
-        //{
-        //    main_panel.Controls.Clear();
-        //    form.MdiParent = this;
-        //    form.FormBorderStyle = FormBorderStyle.None;
-        //    main_panel.Controls.Add(form);
-        //    form.Show();
-        //}
+        public void getForm(Form form)
+        {
+            main_panel.Controls.Clear();
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            main_panel.Controls.Add(form);
+            form.Show();
+        }
+
+        private async void ShowBorrowedBooks(string userId)
+        {
+            string apiUrl = $"http://localhost:3000/users/borrowedBook/{userId}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync(apiUrl);
+                    response.EnsureSuccessStatusCode();
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    
+                    await GetSelectedUser(userId);
+
+                    
+                    MessageBox.Show($"Borrowed Books for User {userId}:\n{json}", "Borrowed Books");
+                    User_Profile_Form user_Profile_Form = new User_Profile_Form(userId);
+                    getForm(user_Profile_Form);
+
+                   
+
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        
+
+
+        private async Task<SelectedUser> GetSelectedUser(string userId)
+        {
+            string userUrl = $"http://localhost:3000/users/{userId}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(userUrl);
+                response.EnsureSuccessStatusCode();
+                string json = await response.Content.ReadAsStringAsync();
+
+                SelectedUser selectedUser = JsonConvert.DeserializeObject<SelectedUser>(json);
+                return selectedUser;
+            }
+        }
+
+
+        private UserData GetUserById(string userId)
+        {
+            UserData selectedUser = userList.FirstOrDefault(user => user._id == userId);
+
+            return selectedUser;
+        }
+
+        
     }
 }
